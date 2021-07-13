@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.7.7)  13 JUL 2021 13:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.7.7)  12 JUL 2021 12:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**A-heuristic-algorithm-to-select-GRM.tex
-(./A-heuristic-algorithm-to-select-GRM.tex
+**A-heuristic-algorithm-to-select-GRM.v20210315.tex
+(./A-heuristic-algorithm-to-select-GRM.v20210315.tex
 LaTeX2e <2021-06-01> patch level 1
 L3 programming layer <2021-06-18> (e:/44013343z/AppData/Roaming/TinyTeX/texmf-d
 ist/tex/latex/base/article.cls
@@ -495,21 +495,12 @@ pdftex.def
 File: l3backend-pdftex.def 2021-05-07 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count307
 \l__pdf_internal_box=\box55
-) (./A-heuristic-algorithm-to-select-GRM.aux
-
-LaTeX Warning: Label `id' multiply defined.
-
-
-LaTeX Warning: Label `id' multiply defined.
-
-
-LaTeX Warning: Label `id' multiply defined.
-
+) (./A-heuristic-algorithm-to-select-GRM.v20210315.aux
 
 LaTeX Warning: Label `id' multiply defined.
 
 )
-\openout1 = `A-heuristic-algorithm-to-select-GRM.aux'.
+\openout1 = `A-heuristic-algorithm-to-select-GRM.v20210315.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 219.
 LaTeX Font Info:    ... okay on input line 219.
@@ -570,10 +561,10 @@ Package hyperref Info: Link coloring OFF on input line 219.
 LaTeX Info: Redefining \ref on input line 219.
 LaTeX Info: Redefining \pageref on input line 219.
 LaTeX Info: Redefining \nameref on input line 219.
-(./A-heuristic-algorithm-to-select-GRM.out) (./A-heuristic-algorithm-to-select-
-GRM.out)
+(./A-heuristic-algorithm-to-select-GRM.v20210315.out) (./A-heuristic-algorithm-
+to-select-GRM.v20210315.out)
 \@outlinefile=\write3
-\openout3 = `A-heuristic-algorithm-to-select-GRM.out'.
+\openout3 = `A-heuristic-algorithm-to-select-GRM.v20210315.out'.
 
 LaTeX Info: Redefining \microtypecontext on input line 219.
 Package microtype Info: Generating PDF output.
@@ -614,10 +605,6 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 \fe@count@abs@i=\count308
 \fe@count@abs@ii=\count309
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `cmtt' (encoding: OT1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
 (e:/44013343z/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/ucs/data/uni-0.def
 File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 )
@@ -628,88 +615,84 @@ Package microtype Info: Loading generic protrusion settings for font family
 [1
 
 {e:/44013343z/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.
-map}] [2] [3] [4] [5] [6]
-<figures/Figure1.png, id=153, 459.21562pt x 447.17062pt>
+map}] [2] [3] [4]
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: OT1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+[5] [6] [7]
+<figures/Figure1.png, id=159, 459.21562pt x 447.17062pt>
 File: figures/Figure1.png Graphic file (type png)
 <use figures/Figure1.png>
-Package pdftex.def Info: figures/Figure1.png  used on input line 689.
-(pdftex.def)             Requested size: 189.70906pt x 316.19011pt.
-<figures/Figure2.png, id=154, 230.8625pt x 231.86626pt>
+Package pdftex.def Info: figures/Figure1.png  used on input line 650.
+(pdftex.def)             Requested size: 189.70906pt x 632.42117pt.
+
+LaTeX Warning: Float too large for page by 61.05869pt on input line 651.
+
+<figures/Figure2.png, id=160, 230.8625pt x 231.86626pt>
 File: figures/Figure2.png Graphic file (type png)
 <use figures/Figure2.png>
-Package pdftex.def Info: figures/Figure2.png  used on input line 703.
-(pdftex.def)             Requested size: 189.71005pt x 189.71407pt.
-<figures/Figure3.png, id=156, 459.21562pt x 447.17062pt>
+Package pdftex.def Info: figures/Figure2.png  used on input line 664.
+(pdftex.def)             Requested size: 189.71005pt x 632.50406pt.
+
+LaTeX Warning: Float too large for page by 73.14157pt on input line 665.
+
+<figures/Figure3.png, id=162, 459.21562pt x 447.17062pt>
 File: figures/Figure3.png Graphic file (type png)
 <use figures/Figure3.png>
-Package pdftex.def Info: figures/Figure3.png  used on input line 721.
-(pdftex.def)             Requested size: 341.48892pt x 316.19011pt.
-<figures/Figure4.png, id=157, 459.21562pt x 447.17062pt>
+Package pdftex.def Info: figures/Figure3.png  used on input line 667.
+(pdftex.def)             Requested size: 189.70906pt x 3163.00658pt.
+<figures/Figure4.png, id=163, 459.21562pt x 447.17062pt>
 File: figures/Figure4.png Graphic file (type png)
 <use figures/Figure4.png>
-Package pdftex.def Info: figures/Figure4.png  used on input line 733.
-(pdftex.def)             Requested size: 341.48892pt x 316.19011pt.
-<figures/Figure5.png, id=158, 544.9158pt x 215.8464pt>
-File: figures/Figure5.png Graphic file (type png)
-<use figures/Figure5.png>
-Package pdftex.def Info: figures/Figure5.png  used on input line 742.
-(pdftex.def)             Requested size: 265.58925pt x 126.46889pt.
-[7] [8 <./figures/Figure1.png>] [9pdfTeX warning (ext4): destination with the s
-ame identifier (name{id}) has been already used, duplicate ignored
+Package pdftex.def Info: figures/Figure4.png  used on input line 668.
+(pdftex.def)             Requested size: 189.70906pt x 3163.00658pt.
+[8
+
+] [9 <./figures/Figure1.png>] [10pdfTeX warning (ext4): destination with the sa
+me identifier (name{id}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.787 
-       <./figures/Figure2.png>] [10pdfTeX warning (ext4): destination with the 
-same identifier (name{id}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.787 
-       <./figures/Figure3.png>] [11pdfTeX warning (ext4): destination with the 
-same identifier (name{id}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.787 
-      pdfTeX warning (ext4): destination with the same identifier (name{id}) ha
-s been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.787 
-       <./figures/Figure4.png> <./figures/Figure5.png>]
-Underfull \hbox (badness 1067) in paragraph at lines 872--872
+l.669 
+       <./figures/Figure2.png>]
+Overfull \vbox (5718.35341pt too high) has occurred while \output is active []
+
+[11 <./figures/Figure3.png> <./figures/Figure4.png>] [12]
+Underfull \hbox (badness 1067) in paragraph at lines 797--797
 []\OT1/cmr/m/n/10 (+20) Long MD, Smi-raglia DJ, Camp-bell MJ. The Ge-nomic Im-p
 act of DNA
  []
 
-[12]
-Underfull \hbox (badness 1253) in paragraph at lines 905--905
+
+Underfull \hbox (badness 1253) in paragraph at lines 830--830
 []\OT1/cmr/m/n/10 (+20) Barat A, Ruskin H, Byrne A, Prehn J. In-te-grat-ing Col
 on Can-cer Mi-
  []
 
 
-Underfull \hbox (badness 1184) in paragraph at lines 905--905
+Underfull \hbox (badness 1184) in paragraph at lines 830--830
 \OT1/cmr/m/n/10 (+20) croar-ray Data: As-so-ci-at-ing Locus-Specific Methy-la-t
 ion Groups to Gene
  []
 
 
 AED: lastpage setting LastPage
-[13] (./A-heuristic-algorithm-to-select-GRM.aux)
+[13] (./A-heuristic-algorithm-to-select-GRM.v20210315.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `A-heuristic-algorithm-to-select-GRM.out' has
- not changed.
-(rerunfilecheck)             Checksum: 1AC83153B4BBADBFD758649263B07F52;4534.
+Package rerunfilecheck Info: File `A-heuristic-algorithm-to-select-GRM.v2021031
+5.out' has not changed.
+(rerunfilecheck)             Checksum: F691EF8F4ACA56D9729F2B24D17BEC48;4652.
  ) 
 Here is how much of TeX's memory you used:
- 14899 strings out of 480477
- 228659 string characters out of 5897329
- 599460 words of memory out of 5000000
- 32171 multiletter control sequences out of 15000+600000
- 412166 words of font info for 105 fonts, out of 8000000 for 9000
+ 14883 strings out of 480477
+ 228621 string characters out of 5897329
+ 593625 words of memory out of 5000000
+ 32163 multiletter control sequences out of 15000+600000
+ 412217 words of font info for 106 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 69i,11n,80p,934b,549s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 69i,12n,80p,808b,551s stack positions out of 5000i,500n,10000p,200000b,80000s
  <e:/44013343z/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/
 tcrm1000.600pk><e:/44013343z/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmbx10.pfb><e:/44013343z/AppData/Roaming/TinyTeX/texmf-dist/fon
@@ -727,11 +710,11 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><e:/44013343z/AppData/Roaming
 Data/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><e:/4
 4013343z/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt
 10.pfb>
-Output written on A-heuristic-algorithm-to-select-GRM.pdf (13 pages, 272008 byt
-es).
+Output written on A-heuristic-algorithm-to-select-GRM.v20210315.pdf (13 pages, 
+254378 bytes).
 PDF statistics:
- 351 PDF objects out of 1000 (max. 8388607)
- 296 compressed objects within 3 object streams
- 99 named destinations out of 1000 (max. 500000)
- 29362 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 331 PDF objects out of 1000 (max. 8388607)
+ 278 compressed objects within 3 object streams
+ 90 named destinations out of 1000 (max. 500000)
+ 29349 words of extra memory for PDF output out of 29859 (max. 10000000)
 

@@ -9,9 +9,9 @@ editor_options:
 
 ```{r}
 library(devtools)
-install_github("bertamiro/Lheuristic")
+install_github("alexsanchezpla/Lheuristic")
 
-library(Lheuristic) #from bertamiro @ github
+library(Lheuristic) #from alexsanchezpla @ github
 library(caret)
 library(purrr)
 ```
