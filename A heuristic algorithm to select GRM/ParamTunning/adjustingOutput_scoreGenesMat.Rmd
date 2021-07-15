@@ -21,23 +21,32 @@ library(purrr)
 
 ```{r}
 
-heurGrid1 <- expand.grid(percY1 = c(0.25, 0.33),
-                        percY2 = c(0.75, 0.66),
-                        aWeightMifL1 = c(-10, -25, -40),
-                        aWeightMifLx = c(0, 1, 2),
-                        aWeightMifL2 = c(1, 2, 4),
-                        aReqPercentsMat1 = c(20, 40, 60))
+heurGrid1 <- expand.grid(percY1 = c(0.33),
+                        percY2 = c(0.66),
+                        aWeightMifL1 = c(-10, -25),
+                        aWeightMifLx = c( 1, 2),
+                        aWeightMifL2 = c(2, 4),
+                        aReqPercentsMat1 = c(10, 4),
+                        aReqPercentsMat2 = c(1, 5),
+                        aReqPercentsMat3 = c(5, 1),
+                        aReqPercentsMat4 = c(5, 1),
+                        aReqPercentsMat5 = c(10, 4)
+                        )
+
+heurGrid <- heurGrid1
+
+# heurGridx <- heurGrid1[!(heurGrid1$percY1 == "0.25" & heurGrid1$percY2 == "0.66"),] 
+# heurGrid <- heurGridx[!(heurGridx$percY1 == "0.33" & heurGridx$percY2 == "0.75"),]
 
 
-heurGridx <- heurGrid1[!(heurGrid1$percY1 == "0.25" & heurGrid1$percY2 == "0.66"),] 
-heurGrid <- heurGridx[!(heurGridx$percY1 == "0.33" & heurGridx$percY2 == "0.75"),]
 ```
 
 
 ```{r}
+#set working dir if needed
 #load data
-expr10x <- read.csv("~/Desktop/Selecting_GRM/A heuristic algorithm to select GRM/ParamTunning/expression10_simulTuning.csv", row.names=1)
-met10x <- read.csv("~/Desktop/Selecting_GRM/A heuristic algorithm to select GRM/ParamTunning/methylation10_simulTuning.csv", row.names=1)
+expr10x <- read.csv("expression10_simulTuning.csv", row.names=1)
+met10x <- read.csv("methylation10_simulTuning.csv", row.names=1)
 
 expr10x$Class <- as.factor(expr10x$Class)
 met10x$Class <- as.factor(met10x$Class)
@@ -58,7 +67,11 @@ expres <- expr10x_50
 scoreGenesMat <- function(mets, expres,
                           x1=percY1, x2=percY2,
                           y1=NULL, y2=NULL, percY1, percY2,
-                          aReqPercentsMat1, # =standardPercentsMat,
+                          aReqPercentsMat1,
+                          aReqPercentsMat2,
+                          aReqPercentsMat3,
+                          aReqPercentsMat4,
+                          aReqPercentsMat5,
                           aWeightMifL1,
                           aWeightMifLx,
                           aWeightMifL2)
@@ -69,7 +82,7 @@ scoreGenesMat <- function(mets, expres,
   Ngenes <-nrow(mets)
   scores <- data.frame(logicSc=rep(FALSE, Ngenes), numericSc=rep(0,Ngenes))
   rownames(scores)<- rownames(mets)
-  aReqPercentsMat   <- matrix (c(10, 20, 1, 5, aReqPercentsMat1, 20, 0, 5, 10), nrow=3, byrow=TRUE)
+  aReqPercentsMat   <- matrix (c(aReqPercentsMat1, 20, aReqPercentsMat2, aReqPercentsMat3, 40, 20, 0, aReqPercentsMat4, aReqPercentsMat5), nrow=3, byrow=TRUE)
   aWeightMifL <- matrix (c(2,-2,aWeightMifL1,1,aWeightMifLx,-2,aWeightMifL2,1,2), nrow=3, byrow=TRUE)
   aWeightMifNonL <- matrix (c(0,-2,-25,0,0,-2,0,0,0), nrow=3, byrow=TRUE)
   minmaxCounts <- toReqMat (N, aReqPercentMat=aReqPercentsMat)
@@ -101,7 +114,7 @@ scoresRes10x_50 <- pmap(heurGrid, scoreGenesMat) #map grid columns to function p
 
 CM10x_50 <- lapply(scoresRes10x_50, function(x) confusionMatrix(data = x$logicSc1,
                                               reference = expres$logicSc1,
-                                              positive = 'L')$byClass)#confusion matrix Sensitivity, specificity, etc. With $overall we obtain kappa and accuracy, with $table we obtain CM 2x2 table
+                                              positive = 'L')$table)# $byClass confusion matrix Sensitivity, specificity, etc. With $overall we obtain kappa and accuracy, with $table we obtain CM 2x2 table
  
 CMdat10x_50 <- as.data.frame(do.call(rbind, CM10x_50))#dataframe from list
 
@@ -113,8 +126,8 @@ paramRes10x_50 <- cbind(heurGrid, CMdat10x_50)#bind parameters' grid with result
 
 ```{r}
 #load data
-expr1x_50 <- read.csv("~/Desktop/Selecting_GRM/A heuristic algorithm to select GRM/ParamTunning/expression1_simulTuning.csv", row.names=1)
-met1x_50 <- read.csv("~/Desktop/Selecting_GRM/A heuristic algorithm to select GRM/ParamTunning/methylation1_simulTuning.csv", row.names=1)
+expr1x_50 <- read.csv("expression1_simulTuning.csv", row.names=1)
+met1x_50 <- read.csv("methylation1_simulTuning.csv", row.names=1)
 
 expr1x_50$Class <- as.factor(expr1x_50$Class)
 met1x_50$Class <- as.factor(met1x_50$Class)
@@ -129,10 +142,15 @@ colnames(met1x_50)[51] <- "logicSc1"
 mets <- met1x_50
 expres <- expr1x_50
 
+
 scoreGenesMat <- function(mets, expres,
                           x1=percY1, x2=percY2,
                           y1=NULL, y2=NULL, percY1, percY2,
-                          aReqPercentsMat1, # =standardPercentsMat,
+                          aReqPercentsMat1,
+                          aReqPercentsMat2,
+                          aReqPercentsMat3,
+                          aReqPercentsMat4,
+                          aReqPercentsMat5,
                           aWeightMifL1,
                           aWeightMifLx,
                           aWeightMifL2)
@@ -143,7 +161,7 @@ scoreGenesMat <- function(mets, expres,
   Ngenes <-nrow(mets)
   scores <- data.frame(logicSc=rep(FALSE, Ngenes), numericSc=rep(0,Ngenes))
   rownames(scores)<- rownames(mets)
-  aReqPercentsMat   <- matrix (c(10, 20, 1, 5, aReqPercentsMat1, 20, 0, 5, 10), nrow=3, byrow=TRUE)
+  aReqPercentsMat   <- matrix (c(aReqPercentsMat1, 20, aReqPercentsMat2, aReqPercentsMat3, 40, 20, 0, aReqPercentsMat4, aReqPercentsMat5), nrow=3, byrow=TRUE)
   aWeightMifL <- matrix (c(2,-2,aWeightMifL1,1,aWeightMifLx,-2,aWeightMifL2,1,2), nrow=3, byrow=TRUE)
   aWeightMifNonL <- matrix (c(0,-2,-25,0,0,-2,0,0,0), nrow=3, byrow=TRUE)
   minmaxCounts <- toReqMat (N, aReqPercentMat=aReqPercentsMat)
@@ -175,7 +193,7 @@ scoresRes1x_50 <- pmap(heurGrid, scoreGenesMat)
 
 CM1x_50 <- lapply(scoresRes1x_50, function(x) confusionMatrix(data = x$logicSc1,
                                               reference = expres$logicSc1,
-                                              positive = 'L')$byClass)
+                                              positive = 'L')$table)
 
 CMdat1x_50 <- as.data.frame(do.call(rbind, CM1x_50))
 
@@ -186,9 +204,8 @@ paramRes1x_50 <- cbind(heurGrid, CMdat1x_50)
 
 ```{r}
 #load data
-expr10x_1000 <- read.csv("~/Desktop/Selecting_GRM/A heuristic algorithm to select GRM/ParamTunning/expression10_simulTuning1000.csv", row.names=1)
-met10x_1000 <- read.csv("~/Desktop/Selecting_GRM/A heuristic algorithm to select GRM/ParamTunning/methylation10_simulTuning1000.csv", row.names=1)
-
+expr10x_1000 <- read.csv("expression10_simulTuning1000.csv", row.names=1)
+met10x_1000 <- read.csv("methylation10_simulTuning1000.csv", row.names=1)
 expr10x_1000$Class <- as.factor(expr10x_1000$Class)
 met10x_1000$Class <- as.factor(met10x_1000$Class)
 
@@ -202,10 +219,15 @@ colnames(met10x_1000)[1001] <- "logicSc1"
 mets <- met10x_1000
 expres <- expr10x_1000
 
+
 scoreGenesMat <- function(mets, expres,
                           x1=percY1, x2=percY2,
                           y1=NULL, y2=NULL, percY1, percY2,
-                          aReqPercentsMat1, # =standardPercentsMat,
+                          aReqPercentsMat1,
+                          aReqPercentsMat2,
+                          aReqPercentsMat3,
+                          aReqPercentsMat4,
+                          aReqPercentsMat5,
                           aWeightMifL1,
                           aWeightMifLx,
                           aWeightMifL2)
@@ -216,7 +238,7 @@ scoreGenesMat <- function(mets, expres,
   Ngenes <-nrow(mets)
   scores <- data.frame(logicSc=rep(FALSE, Ngenes), numericSc=rep(0,Ngenes))
   rownames(scores)<- rownames(mets)
-  aReqPercentsMat   <- matrix (c(10, 20, 1, 5, aReqPercentsMat1, 20, 0, 5, 10), nrow=3, byrow=TRUE)
+    aReqPercentsMat   <- matrix (c(aReqPercentsMat1, 20, aReqPercentsMat2, aReqPercentsMat3, 40, 20, 0, aReqPercentsMat4, aReqPercentsMat5), nrow=3, byrow=TRUE)
   aWeightMifL <- matrix (c(2,-2,aWeightMifL1,1,aWeightMifLx,-2,aWeightMifL2,1,2), nrow=3, byrow=TRUE)
   aWeightMifNonL <- matrix (c(0,-2,-25,0,0,-2,0,0,0), nrow=3, byrow=TRUE)
   minmaxCounts <- toReqMat (N, aReqPercentMat=aReqPercentsMat)
@@ -247,7 +269,7 @@ scoresRes10x_1000 <-  pmap(heurGrid, scoreGenesMat)
 
 CM10x_1000 <- lapply(scoresRes10x_1000, function(x) confusionMatrix(data = x$logicSc1,
                                               reference = expres$logicSc1,
-                                              positive = 'L')$byClass)
+                                              positive = 'L')$table)
 
 CMdat10x_1000 <- as.data.frame(do.call(rbind, CM10x_1000))
 
@@ -289,7 +311,7 @@ scoreGenesMat <- function(mets, expres,
   Ngenes <-nrow(mets)
   scores <- data.frame(logicSc=rep(FALSE, Ngenes), numericSc=rep(0,Ngenes))
   rownames(scores)<- rownames(mets)
-  aReqPercentsMat   <- matrix (c(10, 20, 1, 5, aReqPercentsMat1, 20, 0, 5, 10), nrow=3, byrow=TRUE)
+    aReqPercentsMat   <- matrix (c(aReqPercentsMat1, 20, aReqPercentsMat2, aReqPercentsMat3, 40, 20, 0, aReqPercentsMat4, aReqPercentsMat5), nrow=3, byrow=TRUE)
   aWeightMifL <- matrix (c(2,-2,aWeightMifL1,1,aWeightMifLx,-2,aWeightMifL2,1,2), nrow=3, byrow=TRUE)
   aWeightMifNonL <- matrix (c(0,-2,-25,0,0,-2,0,0,0), nrow=3, byrow=TRUE)
   minmaxCounts <- toReqMat (N, aReqPercentMat=aReqPercentsMat)
@@ -317,11 +339,12 @@ scoreGenesMat <- function(mets, expres,
 }
 
 
+
 scoresRes1x_1000 <-  pmap(heurGrid, scoreGenesMat)
 
 CM1x_1000 <- lapply(scoresRes1x_1000, function(x) confusionMatrix(data = x$logicSc1,
                                               reference = expres$logicSc1,
-                                              positive = 'L')$byClass)
+                                              positive = 'L')$table)
 
 CMdat1x_1000 <- as.data.frame(do.call(rbind, CM1x_1000))
 

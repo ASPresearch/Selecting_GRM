@@ -130,23 +130,78 @@ The R package `simstudy`  was used to create 4 artificial datasets by using the 
 
 # Results
 
-## Tuning of parameters to evaluate and improve method performance
-The selection of "L-shaped" genes with the heuristic method depends on a variety of parameters. Changing the parameters affects the number of genes that will be called "L-shaped" so we would want to find an optimal set of parameters for every parameter combination thus some performance measures such as sensitivity or specificity can be optimized.
-One of this parameters was the sample size or total number of cases available for each gene. As different examples, the TCGA-COAD had 223 samples and the experimental dataset 30. These different sample sizes would generate different percentage matrices that could generate a different number of L-shaped genes. Therefore, the percentage matrix in the heuristic method was adjusted depending on sample size to evaluate the final selection of L-shaped genes.For the experimental dataset the matrix contined higher percentages favouring the diagonal cells (Fig. 5A), whereas for the TCGA data, the percentages matrix had higher values on the "smaller" L-shape (comprising the central cells, Fig. 5B).
+## Presentation of method parameters, input and output
 
 
+### Manin functions and parameters
+
+The scoreGenesMat is a wrapper function that generates and scores any given scatterplot using a binary and a numeric schemes on a row-wise basis
+Parameters required to run the analysis with the scoreGenesMat function:
+
+* **mets** Matrix of methylation values 
+* **expres** Matrix of expression values
+* **aReqPercentsMat** Matrix of minimum maximum percentage of counts to have in a given cell
+* **aWeightMifL** A matrix of weights to score the previous counts if the scatterplot has been classified as L.
+* **aWeightMifNonL** A matrix of weights to score the previous counts if the scatterplot has been classified as non-L
+
+PARAMETROS QUE HEREDA (O NO) DE CALCFREQS
+* **x1, x2**, Coordinates of vertical points in the X axis. Because it is expected to contain methylation values that vary between 0 and 1 the default values are 1/3 and 2/3.
+* **y1, y2**, Coordinates of vertical points in the Y axis. Leaving them as NULL assigns them the percentiles of yVec defined by `percY1` and `percY2`.
+* **percY1, percY2** Values used to act as default for `y1`and `y2` when these are set to `NULL`
+* **trace** Set to TRUE to print count matrices as they are computed
+
+standardWeightMifL    <- matrix (c(2,-2,-100,1, 0,-2, 0, 0, 0), nrow=3, byrow=TRUE)
+standardWeightMifNonL <- matrix (c(0,-2,-100,0, 0,-2, 0, 0, 0), nrow=3, byrow=TRUE)
+standardPercentsMat <- matrix (c(10, 20, 0, 5, 0, 20, 0, 5, 10), nrow=3, byrow=TRUE)
+
+### Input
+Expression dataset
+Methylation dataset
+
+Data preprocessing
+
+### Results
+
+- `logicSc`: TRUE o FALSE segun si se cumplen los criterios definidos para el método Heuristic
+- `numericSc`; Puntuación obtenida por el metodo heurístico.
+
+Genes considerados en forma de L
+Las tablas de resultados tan sólo generan un valor binario para el método heurístico, por ejemplo definiremos "Regulado por metilación": Si no se incumplen los porcentajes fijados en ninguna celda (`logicSc=TRUE`).
+
+- list of selected genes
+- graphs
+- intersection of lists (venn)
+
+
+## Performance evaluation in the heuristic method
 There is a limitation to evaluate the type I and type II errors of the results generated due to the lack of a set of "TRUE Positives" -genes in the datasets analyzed proven to have L-shape- or "TRUE negative" genes known not to have L-shape- due to the difficulty to obtain these parameters from experimental samples. Therefore, an approach to perform a selection between the TRUE and FALSE genes is by visually inspecting the genes and selecting two sets that can be described as "clearly L" and "clearly non-L". Even though this strategy fairly accurate, it is a difficult concept to execute programatically, with the added subjectivity to the selection. For example, there are samples with intermediate scatterplot shapes that are not "clear". To attempt to override that, two strategies were followed. On one hand, synthetic datasets were created based on results obtained from real datasets (TCGA and experimental dataset). As the synthetic datasets were designed based on experimental TRUE and FALSE patterns, they were used as reference to assess the method's performance. On the other hand, a common dataset from TCGA was used to compare our model to 2 other software solutions that also select hypomethylated genes from the integration of gene expression and methylation.
 
+The first approach was to assess the heuristic model's performance with the 4 synthetic datasets with the predefined parameters described in the section above.The datasets used had respectively 50 samples and 1% of "known" L-shaped genes; 50 and 10%; 1000 and 1%; and 1000 and 10%, all with 1000 genes in total. Since the genes that had an L-shaped were know, as they had been synthetically designed, the results were used to adjust some model parameters.
+The parameters tested were the following:
 
-## Detection of L and no-L scatterplots with the heuristic algorithm using a synthetic dataset, CRC TCGA data and CRC reserach data
+* x1, x2: grid partition into 3x3 and 4x4 on the X axis
+* percY1, percY2: grid partition into 3x3 and 4x4 on the Y axis
+* aWeightMifL: 3 parameter options were considered at each point
+* aReqPercentsMat: 2 parameter options were considered at each point
+
+Regarding  **x1, x2, percY1, percY2**, the grid division in to 1/3 generating a 3x3 matrix provided optimal results.
+Adjusting the selected parameters of the **aWeightMifL** matrix did not change the results.
+Four parameters of the **aReqPercentsMat** did change both error type I and type II. These parameters were x3, x4, x8 and x9.
+
+Using the optimal parameter combinations, the identification of L-shaped genes was of 10 for the 1% and 50 samples dataset, 100 L-shaped genes for the 10% and 50 samples, 8 gene for the the 1% and 1000 samples, and 88 L-shaped genes for the 1% and 1000 samples. The false positives were 45, 0, 1, and 0, respectively. The false negatives were 90, 42, 2, and 12, respectively. 
+
+All parameter combinations and respective count matrices for L and NoL genes can be found in the Supplementary table xxx.
+
+### Tuning of parameters to evaluate and improve method performance
+The selection of "L-shaped" genes with the heuristic method depends on a variety of parameters. Changing the parameters affects the number of genes that will be called "L-shaped" so we would want to find an optimal set of parameters for every parameter combination thus some performance measures such as sensitivity or specificity can be optimized.
+One of this parameters was the sample size or total number of cases available for each gene. As different examples, the TCGA-COAD had 223 samples and the experimental dataset 30. These different sample sizes would generate different percentage matrices that could generate a different number of L-shaped genes. Therefore, the percentage matrix in the heuristic method was adjusted depending on sample size to evaluate the final selection of L-shaped genes.For the experimental dataset the matrix contained higher percentages favouring the diagonal cells (Fig. 5A), whereas for the TCGA data, the percentages matrix had higher values on the "smaller" L-shape (comprising the central cells, Fig. 5B).
+
+
+
+## Detection of L and no-L scatterplots with the heuristic algorithm using CRC TCGA data and CRC reserach data
+
 The heuristic method was tested with 3 different datasets, described in the "Data sources" section. 
 For the TCGA-COAD dataset, out of 11788 scaterplots screened with the heuristic method, 735 were classified as L-shaped scaterplots, and for the experimental dataset, out of 11359 scaterplots, 188 were classified as L-shaped.These equal to a 6.23\% and a 1.65\% genes with an L-shape and potentially regulated by methylation.
-
-The 4 artificial datasets previously described: 50 samples, 1% of GRM genes; 50 samples, 10% GRM genes; 1000 samples, 1% GRM genes; and 1000 samples, 10% GRM genes. 
-
-
-### Measures of performance for the heuristic method with synthetic datasets
-Sensitivity, specificity and accuracy for the heuristic model were measured for the 4 synthetic datasets (Fig. [ssa]) with the predefined parameters described in the above section. Specificity was the parameter that scored highest in all datsets, with values between 0.99 (for the datasets with 50 samples) and 1 (for the datasets with 1000 samples). The second highest parameter was accuracy. In this, both datasets containing 1% of GRM genes scored 0.99, whereas the datasets with 10% of GRM  genes scored 0.93 (for the one with 50 samples) and 0.92 (for the one with 1000 samples). Finally, the sensitivity values were the lowest in the combination of 1% GRM and 1000 samples (0.1) and highest for 1% GRM and 50 samples (0.5).  These results indicate that the classification scored better non-L shaped scatterplots (true negatives) than L-shaped scatterplots (true positives).
 
 
 # Discussion
