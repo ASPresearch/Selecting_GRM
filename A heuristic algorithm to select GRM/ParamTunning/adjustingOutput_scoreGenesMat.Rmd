@@ -300,10 +300,14 @@ expres <- expr1x_1000
 scoreGenesMat <- function(mets, expres,
                           x1=percY1, x2=percY2,
                           y1=NULL, y2=NULL, percY1, percY2,
-                          aReqPercentsMat1, # =standardPercentsMat,
+                          aReqPercentsMat1,
+                          aReqPercentsMat2,
+                          aReqPercentsMat3,
+                          aReqPercentsMat4,
+                          aReqPercentsMat5,
                           aWeightMifL1,
                           aWeightMifLx,
-                          aWeightMifL2) # , trace=FALSE)
+                          aWeightMifL2)
 {
   mets <- met1x_1000
   expres <- expr1x_1000
