@@ -60,7 +60,11 @@ First we define the variable methylation with the *defData* function, that varia
 
 ```{r}
 set.seed(1234)
+<<<<<<< HEAD
 #creating 100 L shaped variables with 50 data points
+=======
+#creating 100 L shaped variables with 1000 data points
+>>>>>>> 5f6968e332b1977addf3ede9d987bedb62da669f
 
 ##L-shaped genes: L
 ddef <- defData(varname = "methylation", formula = "0;1", dist = "uniform")
@@ -161,7 +165,11 @@ We use the 'newrange' arugument of the *genSpline* function to direct the points
 
 ```{r}
 
+<<<<<<< HEAD
 #creating 250 non L shaped variables with 50 data points - top horizontal distribution
+=======
+#creating 250 non L shaped variables with 1000 data points - top horizontal distribution
+>>>>>>> 5f6968e332b1977addf3ede9d987bedb62da669f
 
 
 ddef <- defData(varname = "methylation", formula = "0;1", dist = "uniform")
@@ -194,7 +202,11 @@ colNames1a <- names(dta1x)[3:252]
 
 ```{r}
 
+<<<<<<< HEAD
 #creating 250 non L shaped variables with 50 data points - bottom horizontal distribution
+=======
+#creating 250 non L shaped variables with 1000 data points - bottom horizontal distribution
+>>>>>>> 5f6968e332b1977addf3ede9d987bedb62da669f
 
 
 ddef <- defData(varname = "methylation", formula = "0;1", dist = "uniform")
@@ -226,7 +238,11 @@ colNames2a <- names(dta2x)[3:252]
 ###### Non L shaped genes: random distribution
 
 ```{r}
+<<<<<<< HEAD
 #creating 500 non L shaped variables with 50 data points - random distribution
+=======
+#creating 500 non L shaped variables with 1000 data points - random distribution
+>>>>>>> 5f6968e332b1977addf3ede9d987bedb62da669f
 
 
 ddef <- defData(varname = "methylation", formula = "0;1", dist = "uniform")
@@ -257,7 +273,11 @@ colNames3a <- names(dta3x)[3:502]
 ###### Non L shaped genes: vertical distribution left
 
 ```{r}
+<<<<<<< HEAD
 #creating 250 non L shaped variables with 50 data points - vertical distribution left
+=======
+#creating 250 non L shaped variables with 1000 data points - vertical distribution left
+>>>>>>> 5f6968e332b1977addf3ede9d987bedb62da669f
 
 
 ddef1 <- defData(varname = "methylation", formula = "0;0.2", dist = "uniform")
@@ -288,7 +308,11 @@ colNames4a <- names(dta4x)[3:252]
 ###### Non L shaped genes: vertical distribution right
 
 ```{r}
+<<<<<<< HEAD
 #creating 250 non L shaped variables with 50 data points - vertical distribution right
+=======
+#creating 250 non L shaped variables with 1000 data points - vertical distribution right
+>>>>>>> 5f6968e332b1977addf3ede9d987bedb62da669f
 
 
 ddef2 <- defData(varname = "methylation", formula = "0.8;1", dist = "uniform")

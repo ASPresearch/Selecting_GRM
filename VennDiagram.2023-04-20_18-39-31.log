@@ -1,0 +1,13 @@
+INFO [2023-04-20 18:39:31] $x
+INFO [2023-04-20 18:39:31] list(DAMicroarrays = geneListLDAExpr, GEOData = geneListLGEOExpr, 
+INFO [2023-04-20 18:39:31]     TCGAData = geneListLTCGA)
+INFO [2023-04-20 18:39:31] 
+INFO [2023-04-20 18:39:31] $filename
+INFO [2023-04-20 18:39:31] NULL
+INFO [2023-04-20 18:39:31] 
+INFO [2023-04-20 18:39:31] $lty
+INFO [2023-04-20 18:39:31] [1] "blank"
+INFO [2023-04-20 18:39:31] 
+INFO [2023-04-20 18:39:31] $fill
+INFO [2023-04-20 18:39:31] c("skyblue", "red", "yellow")
+INFO [2023-04-20 18:39:31] 

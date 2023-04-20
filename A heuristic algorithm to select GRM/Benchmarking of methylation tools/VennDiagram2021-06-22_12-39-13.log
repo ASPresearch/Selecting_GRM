@@ -1,0 +1,16 @@
+INFO [2021-06-22 12:39:13] $x
+INFO [2021-06-22 12:39:13] list(ELMER = elmer_genes1, Lheuristic = selectedGenesHeuristic, 
+INFO [2021-06-22 12:39:13]     MethylMix = metmix_genes)
+INFO [2021-06-22 12:39:13] 
+INFO [2021-06-22 12:39:13] $filename
+INFO [2021-06-22 12:39:13] NULL
+INFO [2021-06-22 12:39:13] 
+INFO [2021-06-22 12:39:13] $lty
+INFO [2021-06-22 12:39:13] [1] "blank"
+INFO [2021-06-22 12:39:13] 
+INFO [2021-06-22 12:39:13] $fill
+INFO [2021-06-22 12:39:13] c("pink1", "skyblue", "mediumorchid")
+INFO [2021-06-22 12:39:13] 
+INFO [2021-06-22 12:39:13] $main
+INFO [2021-06-22 12:39:13] [1] "Genes in common between the three methods"
+INFO [2021-06-22 12:39:13] 

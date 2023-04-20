@@ -320,7 +320,11 @@ After generating the L and non-L genes, we format the dataset according to the r
 
 
 ### Creation of 2 datasets with the combinations: 1% GRM, 99% GNRM and 10% GRM, 90% GNRM
+<<<<<<< HEAD
 The 2 datasets will have 1000 genes in total.
+=======
+The 2 datasets will have 1000 genes in total and 50 data points.
+>>>>>>> 5f6968e332b1977addf3ede9d987bedb62da669f
 
 Example code to create a dataset with 10% genes following an L-shape and 90% a non-L shape, from the artificial data generated above. We selected a most equal number of genes from each of the gene distribution categories. For example, to obtain a 10% of GR M with an L-shape in a sample of 1000, we selected 35 random genes from the L distribution group, 35 random genes from the concave distribution and 30 from the negative correlation group to add up to 100 (the 10% corresponding to a total sample of 1000 genes). From the non L-shape distribution, we selected 150 genes from each category, except for the randomly distributed genes, for which we selected 300.
 

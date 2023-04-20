@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-04-20">
+
+<title>Selection of L-shaped genes using a heuristic algorithm</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Selecting_GRM_with_Lheuristic_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Selecting_GRM_with_Lheuristic_files/libs/quarto-html/quarto.js"></script>
+<script src="Selecting_GRM_with_Lheuristic_files/libs/quarto-html/popper.min.js"></script>
+<script src="Selecting_GRM_with_Lheuristic_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Selecting_GRM_with_Lheuristic_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Selecting_GRM_with_Lheuristic_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Selecting_GRM_with_Lheuristic_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Selecting_GRM_with_Lheuristic_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Selecting_GRM_with_Lheuristic_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Selecting_GRM_with_Lheuristic_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#the-data-for-the-analysis" id="toc-the-data-for-the-analysis" class="nav-link" data-scroll-target="#the-data-for-the-analysis">The data for the analysis</a>
+  <ul class="collapse">
+  <li><a href="#real-datasets" id="toc-real-datasets" class="nav-link" data-scroll-target="#real-datasets">Real datasets</a>
+  <ul class="collapse">
+  <li><a href="#gene-zbtb18" id="toc-gene-zbtb18" class="nav-link" data-scroll-target="#gene-zbtb18">Gene ZBTB18</a></li>
+  </ul></li>
+  <li><a href="#artificial-true-and-false-l-shaped-genes" id="toc-artificial-true-and-false-l-shaped-genes" class="nav-link" data-scroll-target="#artificial-true-and-false-l-shaped-genes">Artificial TRUE and FALSE L-shaped genes</a>
+  <ul class="collapse">
+  <li><a href="#genes-extracted-from-da-dataset" id="toc-genes-extracted-from-da-dataset" class="nav-link" data-scroll-target="#genes-extracted-from-da-dataset">Genes extracted from DA dataset</a></li>
+  <li><a href="#geos-true-and-false-l-shaped-genes-list" id="toc-geos-true-and-false-l-shaped-genes-list" class="nav-link" data-scroll-target="#geos-true-and-false-l-shaped-genes-list">GEO’s TRUE and FALSE L-shaped genes list</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#scoring-scatterplots" id="toc-scoring-scatterplots" class="nav-link" data-scroll-target="#scoring-scatterplots">Scoring scatterplots</a>
+  <ul class="collapse">
+  <li><a href="#the-three-band-rule" id="toc-the-three-band-rule" class="nav-link" data-scroll-target="#the-three-band-rule">The “three band rule”</a></li>
+  <li><a href="#computing-on-a-grid" id="toc-computing-on-a-grid" class="nav-link" data-scroll-target="#computing-on-a-grid">Computing on a grid</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a>
+  <ul class="collapse">
+  <li><a href="#scoring-the-truefalse-da-dataset" id="toc-scoring-the-truefalse-da-dataset" class="nav-link" data-scroll-target="#scoring-the-truefalse-da-dataset">Scoring the TRUE/FALSE DA dataset</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#putting-all-together-selecting-l-shaped-genes" id="toc-putting-all-together-selecting-l-shaped-genes" class="nav-link" data-scroll-target="#putting-all-together-selecting-l-shaped-genes">Putting all together: Selecting L-shaped genes</a>
+  <ul class="collapse">
+  <li><a href="#parameters-selection" id="toc-parameters-selection" class="nav-link" data-scroll-target="#parameters-selection">Parameters selection</a>
+  <ul class="collapse">
+  <li><a href="#parameters-for-da-and-geo-datasets-small-samples" id="toc-parameters-for-da-and-geo-datasets-small-samples" class="nav-link" data-scroll-target="#parameters-for-da-and-geo-datasets-small-samples">Parameters for DA and GEO datasets (small samples)</a></li>
+  <li><a href="#parameters-for-tcga-datasets-big-samples" id="toc-parameters-for-tcga-datasets-big-samples" class="nav-link" data-scroll-target="#parameters-for-tcga-datasets-big-samples">Parameters for TCGA datasets (big samples)</a></li>
+  </ul></li>
+  <li><a href="#scoring-datasets" id="toc-scoring-datasets" class="nav-link" data-scroll-target="#scoring-datasets">Scoring datasets</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Selection of L-shaped genes using a heuristic algorithm</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>S'anchez-Pla, Alex<span class="math inline">\(^{1,3}\)</span>, </p>
+             <p>Mir'o, Berta<span class="math inline">\(^3\)</span>, </p>
+             <p>Carmona, Francesc<span class="math inline">\(^1\)</span>, </p>
+             <p>Bazzoco, Sara<span class="math inline">\(^2\)</span>, </p>
+             <p>Arango, Diego<span class="math inline">\(^2\)</span> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2023-04-20</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+\author{
+<section id="introduction" class="level1 page-columns page-full">
+<h1>Introduction</h1>
+<p>This document contains examples / applications on how to select L-shaped genes from two data matrices, an expression and a methylation matrix, matched by rows (genes) and columns(samplea), using the algorithms implemented by the authors and described elsewhere.</p>
+<p>The idea is to “keep-it-simple” so that it can serve as the basis for other applications such as a program that optimizes the parameters or for a graphical user interface based in Shiny.</p>
+<p>Essentially what the program does is</p>
+<ul>
+<li><p>Data input </p>
+<ul>
+<li>Select (Load) expression values from a csv file</li>
+<li>Select (Load) methylation values from a csv file</li>
+<li>Data preprocessing may need to be done automatically so that its results can be used for filtering.</li>
+</ul></li>
+<li><p>Set parameter values</p></li>
+<li><p>For data use (all genes or only those that pass certain filters (corr &lt; 0))</p></li>
+<li><p>For L-shape selection method: Here one may want to select the method and its parameters (each method has a different set of parameters)</p></li>
+<li><p>Data processing (For each method and set of parameters …)</p>
+<ul>
+<li>Run the computation and “mark” L-shape genes</li>
+<li>Draw the scatterplots of either all genes or only selected genes</li>
+</ul></li>
+<li><p>Data output (For each method and set of parameters …)</p>
+<ul>
+<li>Save (Download) the resulting gene list(s)</li>
+<li>Save (Download) the scatterplots</li>
+</ul></li>
+</ul>
+<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">A</span></span></div><div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span>(<span class="fu">require</span>(VennDiagram))) <span class="fu">install.packages</span>(<span class="st">"VennDiagram"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span>(<span class="fu">require</span>(org.Hs.eg.db)))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  biocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"org.Hs.eg.db"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span>(<span class="fu">require</span>(Lheuristic)))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"aspresearch/Lheuristic"</span>, <span class="at">force=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lheuristic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-data-for-the-analysis" class="level1 page-columns page-full">
+<h1>The data for the analysis</h1>
+<section id="real-datasets" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="real-datasets">Real datasets</h2>
+<p>There are several datasets available for analysis obtained from distinct sources:</p>
+<ol type="1">
+<li>DA1. Expression microarrays (<code>DAMicroarrays.csv</code>) and methylation array (<code>DAMetilacion.csv</code>) on 25 cell llines </li>
+<li>DA2. Expression RNAseq (<code>DARNAseq.csv</code>) and methylation array (<code>DAMetilacion.csv</code>) on 25 cell llines</li>
+<li>GEO1. Expression microarrays (Illumina beadchips, <code>geoMicroarrays.csv</code>) and methylation array (Illumina 25kMethArray, <code>geoMetilacion.csv</code>) on 25 CRC samples. The data have been collected from the GEO database records: GSE25062 for the methylation data and GSE25070 for the expression data. The dataset has been created by taking the expression values available for 26 CRC tumors and matching with their corresponding methylation values.</li>
+<li><code>TCGA</code> dataset has been obtained from The Cancer Genome Atlas Database (TCGA) (Colon Adenocarcinoma (<code>COAD</code>) Nature 2012 dataset) and downloaded through the cBioportal website.</li>
+</ol>
+<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">B</span></span></div><p>A summary of each datasets follows below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(printr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>DAExprData <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="at">file=</span><span class="fu">file.path</span>(dadesDir,<span class="st">"DatosMicroarrays.csv"</span>), <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">";"</span>, <span class="at">dec=</span><span class="st">","</span>, <span class="at">row.names =</span> <span class="dv">1</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>DAMetilData <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="at">file=</span><span class="fu">file.path</span>(dadesDir,<span class="st">"DatosMetilacion.csv"</span>), <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">";"</span>,<span class="at">dec=</span><span class="st">","</span>, <span class="at">row.names =</span> <span class="dv">1</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#DARNAseqData &lt;- as.matrix(read.table(file=file.path(dadesDir,"DatosRNAseq.csv"), header=TRUE, sep=";",dec=",", row.names = 1))</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"DA Microarray data : "</span>, <span class="fu">dim</span>(DAExprData), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DA Microarray data :  11359 30 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"DA Methylation data: "</span>, <span class="fu">dim</span>(DAMetilData), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DA Methylation data:  11359 30 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cat("DA RNASeq data     : ", dim(DARNAseqData), "\n")</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(DAExprData, DAMetilData, <span class="at">file=</span><span class="st">"dades/DataMatrices-DA.Rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>geoExprData <span class="ot">&lt;-</span>  <span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="at">file=</span><span class="fu">file.path</span>(dadesDir,<span class="st">"GEOExpData.csv"</span>), <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">";"</span>, <span class="at">dec=</span><span class="st">"."</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>geoMetilData <span class="ot">&lt;-</span>  <span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="at">file=</span><span class="fu">file.path</span>(dadesDir,<span class="st">"GEOMethData.csv"</span>), <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">";"</span>, <span class="at">dec=</span><span class="st">"."</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"GEO Microarray data : "</span>, <span class="fu">dim</span>(geoExprData), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEO Microarray data :  11191 25 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"GEO Methylation data: "</span>, <span class="fu">dim</span>(geoMetilData), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEO Methylation data:  11191 25 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(geoExprData, geoMetilData, <span class="at">file=</span><span class="st">"dades/DataMatrices-GEO.Rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>TCGAExprData <span class="ot">&lt;-</span>  <span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="at">file=</span><span class="fu">file.path</span>(dadesDir,<span class="st">"TCGA-cBioPortal-Expressions.csv"</span>), <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">","</span>, <span class="at">dec=</span><span class="st">"."</span>, <span class="at">row.names=</span><span class="dv">1</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>TCGAMetilData <span class="ot">&lt;-</span>  <span class="fu">as.matrix</span>(<span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">file.path</span>(dadesDir,<span class="st">"TCGA-cBioPortal-Methylations.csv"</span>), <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">","</span>, <span class="at">dec=</span><span class="st">"."</span>, <span class="at">row.names=</span><span class="dv">1</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"TCGA Microarray data : "</span>, <span class="fu">dim</span>(TCGAExprData), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TCGA Microarray data :  11788 223 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"TCGA Methylation data: "</span>, <span class="fu">dim</span>(TCGAMetilData), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TCGA Methylation data:  11788 223 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(TCGAExprData, TCGAMetilData, <span class="at">file=</span><span class="st">"dades/DataMatrices-TCGA.Rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>inCommon<span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">intersect</span>(<span class="fu">rownames</span>(DAExprData), <span class="fu">rownames</span>(geoExprData)))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>inCommon2 <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">intersect</span>(<span class="fu">rownames</span>(DAExprData), <span class="fu">rownames</span>(TCGAExprData)))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>inCommon3 <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">intersect</span>(<span class="fu">rownames</span>(geoExprData), <span class="fu">rownames</span>(TCGAExprData)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There are genes in common between the DAX dataset and the GEO datasets. There are common genes between the DAX dataset and the TCGA dataset and common genes between the GEO dataset and the TCGA dataset.</p>
+<p>This can be visualized using a Venn diagram</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>myVenn4<span class="ot">&lt;-</span> <span class="fu">venn.diagram</span>(<span class="at">x=</span><span class="fu">list</span>(<span class="at">DA=</span><span class="fu">rownames</span>(DAExprData),</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">GEO=</span><span class="fu">rownames</span>(geoExprData),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">TCGA=</span><span class="fu">rownames</span>(TCGAExprData)),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">filename=</span><span class="cn">NULL</span>, <span class="at">lty =</span> <span class="st">"blank"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">fill=</span><span class="fu">c</span>(<span class="st">"pink1"</span>, <span class="st">"skyblue"</span>, <span class="st">"mediumorchid"</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">main=</span><span class="st">"Genes in common between the three datasets"</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.newpage</span>()</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.draw</span>(myVenn4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Selecting_GRM_with_Lheuristic_files/figure-html/vennCommonGenesin3lists-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>The data for these analyses must have a common structure: <strong>Each pair of matrices (Expression-Methylation) must have the same rome and column names</strong>, that is both datasets must contain information for the same genes and same samples at their corresponding positions.</p>
+<p>This can be checked using a simple function such as <code>checkData</code> available in the package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="cf">if</span>(<span class="sc">!</span><span class="fu">checkPairing</span>(DAExprData, DAMetilData)) <span class="fu">stop</span>(<span class="st">"Row names and/or column names do not match"</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="cf">if</span>(<span class="sc">!</span><span class="fu">checkPairing</span>(geoExprData, geoMetilData)) <span class="fu">stop</span>(<span class="st">"Row names and/or column names do not match"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When one is studying the relation between methylation and expression for a bunch of genes it may be convenient to (be able) to plot the scatterplots depicting the relation between these variables. Function <code>plotGenesMat</code> allows to draw such plots.</p>
+<p>Some examples of using this function with the first four genes of the TCGA dataset are shown below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>selectedGenes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ALDH1A2"</span>, <span class="st">"ALDH1A3"</span>, <span class="st">"APCDD1"</span>, <span class="st">"ARHGDIB"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>opt<span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>DAMetilData[selectedGenes, ],</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>DAExprData[selectedGenes,], <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">percY1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName=</span><span class="cn">NULL</span>, <span class="at">plotGrid =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Selecting_GRM_with_Lheuristic_files/figure-html/plot4Genes1-1.png" class="img-fluid figure-img" width="768"></p>
+<p></p><figcaption class="figure-caption">Scatter plot of first four genes in DA dataset (microarrays)</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>selectedGenes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ALDH1A2"</span>, <span class="st">"ALDH1A3"</span>, <span class="st">"APCDD1"</span>, <span class="st">"ARHGDIB"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>opt<span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>geoMetilData[selectedGenes,],</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>geoExprData[selectedGenes,],</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName=</span><span class="cn">NULL</span>, <span class="at">plotGrid =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Selecting_GRM_with_Lheuristic_files/figure-html/plot4Genes3-1.png" class="img-fluid figure-img" width="768"></p>
+<p></p><figcaption class="figure-caption">Scatter plot of first four genes in GEO dataset (microarrays)</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>selectedGenes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ALDH1A2"</span>, <span class="st">"ALDH1A3"</span>, <span class="st">"APCDD1"</span>, <span class="st">"ARHGDIB"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>opt<span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>TCGAMetilData[selectedGenes,],</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>TCGAExprData[selectedGenes,],</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName=</span><span class="cn">NULL</span>, <span class="at">plotGrid =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Selecting_GRM_with_Lheuristic_files/figure-html/plot4Genes4-1.png" class="img-fluid figure-img" width="768"></p>
+<p></p><figcaption class="figure-caption">Scatter plot of first four genes in TCGA dataset (microarrays)</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at the figuresabove shows that although the genes may behave similarly between datasets methods for selecting GRM must be robust and adaptable to for eample distinct sample sizes.</p>
+<section id="gene-zbtb18" class="level3">
+<h3 class="anchored" data-anchor-id="gene-zbtb18">Gene ZBTB18</h3>
+<p>Figure <strong>?@sec-plotZBTB18</strong> shows how the scatterplot looks like for a gene that has been described bu the researchers as regulated by methylation</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#selectedGenes &lt;- c("A1BG","A2ML1",  "A4GALT", "AAAS" )</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>selectedGene <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ZBTB18"</span>, <span class="st">"ZBTB18"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>opt<span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>DAMetilData[selectedGene, ],</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>DAExprData[selectedGene,], <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">percY1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName=</span><span class="cn">NULL</span>, <span class="at">plotGrid =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>( <span class="fu">lm</span>(DAExprData[<span class="st">"ZBTB18"</span>,]<span class="sc">~</span> DAMetilData[<span class="st">"ZBTB18"</span>, ]))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>DAMetilData[selectedGene, ],</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>DAExprData[selectedGene,], <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">percY1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="at">percY2=</span><span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName=</span><span class="cn">NULL</span>, <span class="at">plotGrid =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>( <span class="fu">lm</span>(DAExprData[<span class="st">"ZBTB18"</span>,]<span class="sc">~</span> DAMetilData[<span class="st">"ZBTB18"</span>, ]))</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Selecting_GRM_with_Lheuristic_files/figure-html/plotZBTB18-1.png" class="img-fluid figure-img" width="768"></p>
+<p></p><figcaption class="figure-caption">Scatter plot of gene ZBTB18. It seems clear that this gene will be selected by a method that selects genes negatively correlated rather than <em>L-shaped</em>, although the grid could be adequately tuned for selecting it as shown in the plot.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="artificial-true-and-false-l-shaped-genes" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="artificial-true-and-false-l-shaped-genes">Artificial TRUE and FALSE L-shaped genes</h2>
+<section id="genes-extracted-from-da-dataset" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="genes-extracted-from-da-dataset">Genes extracted from DA dataset</h3>
+<div class="page-columns page-full"><p>Two small sets of genes<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> have been compiled with genes that were clearly L-shaped or clearly non-L-Shaped. Because these sets have been prepared arbitrarily we decide not to use them as “TRUE POSITIVE” and “TRUE NEGATIVES” except for illustrative purposes.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;TRUE and FALSE genes from the original dataset ” DA” have been obtained by doing an extensive sampling on the original dataset and selecting genes that <em>seemed</em> to have an L-shape and those that did not</p></li></div></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Genes True i False</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>trueLGeneDF <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="fu">file.path</span>(dadesDir, <span class="st">"genesTrueLNEW.txt"</span>))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>(trueLGeneNames <span class="ot">&lt;-</span> <span class="fu">as.character</span>(trueLGeneDF[,<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ABCG2"      "ADH6"       "AKR1C4"     "BCL11B"     "CA9"       
+ [6] "CCR6"       "CST7"       "CX3CL1"     "DAPP1"      "CYP27A1"   
+[11] "ELAVL2"     "FAM84A"     "GREM1"      "HSD17B2"    "INHBB"     
+[16] "KCNV1"      "LHFP"       "MEP1A"      "LRP2"       "MAGEE1"    
+[21] "MEP1A"      "MYT1"       "NOX1"       "OAS2"       "PHYHIPL"   
+[26] "POF1B"      "POPDC3"     "PRDM16"     "PRDM5"      "QPCT"      
+[31] "RASGRF2"    "RAB6B"      "RASEF"      "RNF186"     "SOX2"      
+[36] "SOSTDC1"    "SPON1"      "ST6GALNAC1" "STEAP4"     "STK33"     
+[41] "TAPBPL"     "SYN2"       "THRB"       "TRAM1L1"    "WNK4"      </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>falseLGeneDF <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(dadesDir, <span class="st">"genesFalseLNEW.txt"</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>(falseLGeneNames <span class="ot">&lt;-</span> <span class="fu">as.character</span>(falseLGeneDF[,<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ACOX2"     "ADA"       "AKR1B1"    "ALDH1A3"   "AMT"       "ANXA3"    
+ [7] "ARHGAP4"   "ARL14"     "ATP6AP2"   "AUTS2"     "BHLHB9"    "BMP7"     
+[13] "C19orf33"  "C1QTNF6"   "CAB39L"    "CDH17"     "CDX1"      "CFTR"     
+[19] "CIDEB"     "CMTM3"     "DNAJA4"    "DUSP9"     "ELF3"      "ELMO3"    
+[25] "FBP1"      "FGD4"      "FKBP10"    "FOXC1"     "FUCA2"     "GNG4"     
+[31] "GPRC5A"    "GRAMD3"    "H1F0"      "HIST1H2BH" "HNMT"      "HOOK1"    
+[37] "HOOK3"     "HOXB3"     "HOXB2"     "HOXB5"     "HS3ST1"    "LCMT2"    
+[43] "LAMA3"     "LDHB"     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>trueLExpr <span class="ot">&lt;-</span> DAExprData[<span class="fu">rownames</span>(DAExprData) <span class="sc">%in%</span> trueLGeneNames ,]</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>falseLExpr <span class="ot">&lt;-</span> DAExprData[<span class="fu">rownames</span>(DAExprData) <span class="sc">%in%</span> falseLGeneNames ,]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>trueLMet <span class="ot">&lt;-</span> DAMetilData[<span class="fu">rownames</span>(DAMetilData) <span class="sc">%in%</span> trueLGeneNames ,]</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>falseLMet <span class="ot">&lt;-</span> DAMetilData[<span class="fu">rownames</span>(DAMetilData) <span class="sc">%in%</span> falseLGeneNames ,]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span>(<span class="fu">file.exists</span>(<span class="st">"DATrueLExpression.csv"</span>)))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.table</span>(trueLExpr, <span class="fu">file.path</span>(dadesDir, <span class="st">"DATrueLExpression.csv"</span>),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">";"</span>, <span class="at">dec=</span><span class="st">"."</span>, <span class="at">quote=</span><span class="cn">FALSE</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span>(<span class="fu">file.exists</span>(<span class="st">"DATrueLMetilacion.csv"</span>)))</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.table</span>(trueLMet, <span class="fu">file.path</span>(dadesDir, <span class="st">"DATrueLMetilacion.csv"</span>),</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">";"</span>, <span class="at">dec=</span><span class="st">"."</span>, <span class="at">quote=</span><span class="cn">FALSE</span>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tt&lt;- read.table(file.path(dadesDir, "DATrueLMetilacion.csv"), sep=";", dec=".")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Figures <strong>?@sec-Lshaped1</strong> and <strong>?@sec-Lshaped2</strong> show the first four genes of each type for illustrative purposes.</p>
+<p>opt&lt;- par(mfrow=c(2,2)) <!-- ?---></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>opt<span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>falseLMet[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,], <span class="at">expres=</span>falseLExpr[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,],</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">fileName=</span><span class="cn">NULL</span>, <span class="at">plotGrid =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Selecting_GRM_with_Lheuristic_files/figure-html/plotFALSE1-1.png" class="img-fluid figure-img" width="768"></p>
+<p></p><figcaption class="figure-caption">Example of True ‘NON-L-shaped’ genes</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="geos-true-and-false-l-shaped-genes-list" class="level3">
+<h3 class="anchored" data-anchor-id="geos-true-and-false-l-shaped-genes-list">GEO’s TRUE and FALSE L-shaped genes list</h3>
+<p>Similarly to what we have done with the researcher’s dataset we have <strong>visually</strong> selected a set of L-shaped genes Two small sets of genes have been compiled with genes that were clearly L-shaped or clearly non-L-Shaped. Because these sets have been prepared arbitrarily we decide not to use them as “TRUE POSITIVE” and “TRUE NEGATIVES” except for illustrative purposes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Genes True i False</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>GEOTrueFalse <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(dadesDir, <span class="st">"GEOTrueFalse.txt"</span>))</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>(GEOtrueLGeneNames <span class="ot">&lt;-</span> <span class="fu">as.character</span>(GEOTrueFalse[GEOTrueFalse[,<span class="dv">2</span>]<span class="sc">!=</span><span class="dv">0</span>,<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Gene"     "LRRTM1"   "P8"       "B4GALT6"  "C1QL1"    "CNR1"    
+ [7] "DMBT1"    "ELOVL6"   "EOMES"    "ERG"      "GSTM3"    "IL17RC"  
+[13] "LPHN2"    "MME"      "MMP19"    "MOSPD2"   "MSX2"     "MTCP1"   
+[19] "MTMR8"    "NCOR2"    "P4HA3"    "SH3GL2"   "SMARCA1"  "SMO"     
+[25] "TITF1"    "TLR7"     "TP53INP1" "TRPM8"    "UBL4A"    "ZNF550"  
+[31] "ZNF71"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(GEOfalseLGeneNames <span class="ot">&lt;-</span> <span class="fu">as.character</span>(GEOTrueFalse[GEOTrueFalse[,<span class="dv">2</span>]<span class="sc">==</span><span class="dv">0</span>,<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "KLHL20"    "PPM2C"     "SNX27"     "C6orf114"  "IMMP2L"    "NOL3"     
+ [7] "P15RS"     "PCGF2"     "NCOA2"     "PQLC2"     "SLC20A1"   "AQP9"     
+[13] "KIT"       "AP4B1"     "FOXO1A"    "C1orf102"  "NSD1"      "ANKRD23"  
+[19] "MCL1"      "SPATA21"   "C6orf72"   "ATP2A1"    "EGLN1"     "TFAP2E"   
+[25] "TMC6"      "KRTHA4"    "CHST8"     "SKI"       "MCART1"    "MYBPC3"   
+[31] "ZNF542"    "ICT1"      "RALBP1"    "SPINK5"    "IL10RB"    "BTBD10"   
+[37] "TMTC3"     "WNT3"      "C1orf142"  "MX2"       "DDX19A"    "BXDC5"    
+[43] "SIX6"      "COG1"      "ALPPL2"    "TNFRSF4"   "FLJ45983"  "IFT80"    
+[49] "LOC388407" "TIGD1"     "NKX6-2"    "PARD3"     "SYT3"      "FOXB1"    
+[55] "FLJ90166"  "EMR2"      "ABCB10"    "NDUFA4"    "TLOC1"     "SLC14A1"  
+[61] "DDX3X"     "TACC2"     "PLEKHA8"   "SP6"       "EPB41L1"   "ASB6"     
+[67] "LY6G6C"    "LRP6"      "GPR30"     "GPR1"     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>GEOtrueLExpr <span class="ot">&lt;-</span> geoExprData[<span class="fu">rownames</span>(geoExprData) <span class="sc">%in%</span> GEOtrueLGeneNames ,]</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>GEOfalseLExpr <span class="ot">&lt;-</span> geoExprData[<span class="fu">rownames</span>(geoExprData) <span class="sc">%in%</span> GEOfalseLGeneNames ,]</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>GEOtrueLMet <span class="ot">&lt;-</span> geoMetilData[<span class="fu">rownames</span>(geoMetilData) <span class="sc">%in%</span> GEOtrueLGeneNames ,]</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>GEOfalseLMet <span class="ot">&lt;-</span> geoMetilData[<span class="fu">rownames</span>(geoMetilData) <span class="sc">%in%</span> GEOfalseLGeneNames ,]</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>GEOTrueFalseExpr <span class="ot">&lt;-</span> geoExprData[<span class="fu">rownames</span>(geoExprData) <span class="sc">%in%</span> <span class="fu">c</span>(GEOtrueLGeneNames,GEOfalseLGeneNames) ,]</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>GEOTrueFalseMet <span class="ot">&lt;-</span> geoMetilData[<span class="fu">rownames</span>(geoMetilData) <span class="sc">%in%</span> <span class="fu">c</span>(GEOtrueLGeneNames,GEOfalseLGeneNames) ,]</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span>(<span class="fu">file.exists</span>(<span class="st">"GEOTrueLExpression.csv"</span>)))</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.table</span>(GEOtrueLExpr, <span class="fu">file.path</span>(dadesDir, <span class="st">"GEOTrueLExpression.csv"</span>),</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">";"</span>, <span class="at">dec=</span><span class="st">"."</span>, <span class="at">quote=</span><span class="cn">FALSE</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span>(<span class="fu">file.exists</span>(<span class="st">"GEOTrueLMetilacion.csv"</span>)))</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.table</span>(GEOtrueLMet, <span class="fu">file.path</span>(dadesDir, <span class="st">"GEOTrueLMetilacion.csv"</span>),</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">";"</span>, <span class="at">dec=</span><span class="st">"."</span>, <span class="at">quote=</span><span class="cn">FALSE</span>)</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tt&lt;- read.table(file.path(dadesDir, "GEOTrueLMetilacion.csv"), sep=";", dec="."); head(tt)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Figures <strong>?@sec-GEOLshaped1</strong> and <strong>?@sec-GEOLshaped2</strong> show the first four genes of each type for illustrative purposes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>opt<span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>GEOtrueLMet[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,], <span class="at">expres=</span>GEOtrueLExpr[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,],</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">fileName=</span><span class="cn">NULL</span>, <span class="at">plotGrid =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Selecting_GRM_with_Lheuristic_files/figure-html/plotTRUE2-1.png" class="img-fluid figure-img" width="768"></p>
+<p></p><figcaption class="figure-caption">Example of ‘True’ L-shaped genes</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>opt<span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>GEOfalseLMet[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,], <span class="at">expres=</span>GEOfalseLExpr[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,],</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">y1=</span>y1, <span class="at">y2=</span>y2,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">fileName=</span><span class="cn">NULL</span>, <span class="at">plotGrid =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Selecting_GRM_with_Lheuristic_files/figure-html/plotFALSE2-1.png" class="img-fluid figure-img" width="768"></p>
+<p></p><figcaption class="figure-caption">Example of ‘True’ NON-L-shaped genes</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="scoring-scatterplots" class="level1 page-columns page-full">
+<h1>Scoring scatterplots</h1>
+<section id="the-three-band-rule" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-three-band-rule">The “three band rule”</h2>
+<p>After trying different approaches to detect L-shapes, one often comes back to a naive approach like <em>“L-shaped” genes should show an L shape in the scatterplot, that is, values should tend to be scattered near the vertical and horizontal axes, and the more we move from these positions the least L-shaped the gene should be</em>.</p>
+<p>This idea can be made more explicit by introducing a “three-band rule” as follows:</p>
+<ol type="1">
+<li><p>Overimpose a <span class="math inline">\(3\times 3\)</span> grid on the scatterplot. </p></li>
+<li><p>Classify the scatterplot as <strong>“L” or “non-L”</strong> based on a small set of conditions:</p>
+<pre><code>i) There must be a _minimum_ number of points in the upper-left (cell (1,1)) and lower right (cell (3,3)) corners of the grid.
+i) There must be a _maximum_ number of points in the upper right (cell (1,3)) because points there mean hypermethylation and hyperexpression which is the opposite of what we are looking for.
+i) We will usually _not require to have a minimum of points in cell (3,1)_ unless we are really willing to have an L-shape (in our setting we will also be happy tho recover diagonals, which also reflect a negative correlation!).</code></pre></li>
+<li><p>Score points on each subgrid in such a way that</p>
+<pre><code>i) Points in permitted regions (left-outer margin, i.e. cells: (1,1), (2,2), (3,1), (3,2), (3,3)) score positively if the scatterplot has been classified as L or zero if it has been classified as non-L.
+i) Points in non-desired regions (outer band. i.e. cells (1,2), (1,3), (2,3)) score negatively in all cases.
+i) Some regions may be declared neutral and not-score, such as cell (2,2).</code></pre></li>
+<li><p>Use cross-validation to tune scoring parameters (<strong>if a set of positive and negative L-shaped genes is available</strong>).</p></li>
+</ol>
+<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">C</span></span></div><p>The previous scheme can be summarized using the following equation. <span class="math display">\[
+S(X) = W_L \circ X \times \mathbbm{1}_L(X) + W_{L^C} \circ X \times \mathbbm{1}_{L^c}(X),
+\]</span> where</p>
+<ul>
+<li><span class="math inline">\({X}\)</span> is the matrix of <em>counts</em>, i.e.&nbsp;the number of counts in each cell of the grid, </li>
+<li><span class="math inline">\({W_L}\)</span> is the matrix of scores per cell and point <em>if the scatterplot has been classified as <span class="math inline">\(L\)</span></em>,</li>
+<li><span class="math inline">\({W_{L^c}}\)</span> is the matrix of scores per cell and point <em>if the scatterplot has been classified as non-<span class="math inline">\(L\)</span> (<span class="math inline">\(L^c\)</span>)</em>,</li>
+</ul>
+<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">D</span></span></div><p>and <span class="math inline">\(\circ\)</span> represents the hadamard product of the two matrices <span class="math inline">\(W_{L/L^c}\)</span> (i.e.&nbsp;elementwise multiplication of the two matrices) and <span class="math inline">\(\mathbbm{1}_{L/L^c}()\)</span> is the indicator function for <span class="math inline">\(L\)</span> or <span class="math inline">\(L^c\)</span>.</p>
+<p>The fact that the scatterplot is assigned to <span class="math inline">\(L\)</span> or <span class="math inline">\(L^c\)</span> can also be described as the hadamard product of three matrices: <span class="math display">\[
+\mathbold{1}_L(X) = \bigwedge_{i,j} X \circ C \circ \left( mMP \times \sum_{i,j}x_{ij}\right),
+\]</span> where:</p>
+<ul>
+<li><span class="math inline">\({X}\)</span> is the matrix of <em>counts</em>, i.e.&nbsp;the number of counts in each cell of the grid, </li>
+<li><span class="math inline">\(C\)</span> is the matrix of conditions to be verified <em>if the scatterplot has to be classified as <span class="math inline">\(L\)</span></em>,</li>
+<li><span class="math inline">\(mMP\)</span> is the matrix of minimum and Maximum Percentages of points to have in each cell <em>if the scatterplot has to be classified as <span class="math inline">\(L\)</span></em>,</li>
+<li><span class="math inline">\(\circ\)</span> represents the pointwise logical operation which allows that the product of the three cells becomes a logical operation and</li>
+<li><span class="math inline">\(\bigwedge_{i,j}\)</span> represents an logical “AND” operation of all cells, that is if all cells are TRUE the result is assigned to <span class="math inline">\(L\)</span> and if one fails it is assigned to <span class="math inline">\(L^c\)</span>.</li>
+</ul>
+<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">E</span></span></div><p>This idea is summarized in figure <strong>?@sec-Lscore</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"images/Lscoring.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Lscoring.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption class="figure-caption">The heuristic method is based in scoring differently depending on where the points are found on a grid</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="computing-on-a-grid" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="computing-on-a-grid">Computing on a grid</h2>
+<p>We have developed several functions to help detect and select L–shape scatterplots. Their use is described in the package help but they are illustrated here to clarify the code below.</p>
+<ul>
+<li><code>calcFreqs</code> counts the number of points in each cell of the grid for given vertical (defined by parameters <code>x1</code>, <code>x2</code>) and horizontal lines (defined by parameters <code>y1</code>, <code>y2</code>, <code>percY1</code>, <code>percY2</code>) </li>
+<li><code>binScore</code> classifies (<em>scores binarily</em>) a scatterplot based on the rules described above, that is it checks if the minimal assumptions for an L-shape hold or not. It needs a matrix of <em>min-max frequency counts</em>.</li>
+<li><code>numScore</code> scores a scatterplot using a matrix of weights that defines the score given to each point depending on the cell where it is located.
+<ul>
+<li>If the scatterplot has been classified as having L-shape all points are scored, those in favorable regions score positively and those in non-favorable regions negatively.</li>
+<li>If the scatterplot has not been classifed as “L” only points in non-favourable regions score negatively.</li>
+</ul></li>
+<li><code>scoreGenesMat</code> is a wrapper for scoring the genes provided in two related matrices that is, it first applies the <code>binScore</code> function and depending on its results it computes the <code>numericScore</code> function with all the genes in the (pair of) matrices.</li>
+<li>Function <code>plotGenesMat</code> is not a computing function but it is worth to enumerate it here because it complements the other functions by allowing to visualize the data that have generated a certain score from a given scatterplot.</li>
+</ul>
+<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">F</span></span></div></section>
+<section id="examples" class="level2">
+<h2 class="anchored" data-anchor-id="examples">Examples</h2>
+<section id="scoring-the-truefalse-da-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="scoring-the-truefalse-da-dataset">Scoring the TRUE/FALSE DA dataset</h3>
+<p>The first example below show that genes that have been marked as TRUE or FALSE L in the DA dataset <strong>may</strong> score different.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>xVecTrue<span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(trueLMet[<span class="dv">1</span>,])</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>yVecTrue<span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(trueLExpr[<span class="dv">1</span>,])</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>reqPercentages <span class="ot">&lt;-</span> <span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">5</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">messageTitle</span>(<span class="st">"Frequency count in first 'TRUE' gene"</span>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>(geneGridTrue <span class="ot">&lt;-</span> <span class="fu">calcFreqs</span>(<span class="at">xMet=</span>xVecTrue, <span class="at">yExp=</span>yVecTrue, <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y1=</span><span class="cn">NULL</span>, <span class="at">y2=</span><span class="cn">NULL</span>, <span class="at">percY1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(maxminCountsT <span class="ot">&lt;-</span> <span class="fu">toReqMat</span> (<span class="fu">sum</span>(geneGridTrue), reqPercentages))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">aWeightMifL=</span><span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">2</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">25</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">aWeightMifNonL=</span><span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">25</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">messageTitle</span>(<span class="st">"Binary and numeric soring in first 'TRUE' gene"</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>(binSc<span class="ot">&lt;-</span> <span class="fu">binScore</span> (geneGridTrue, maxminCountsT ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>(nsT<span class="ot">&lt;-</span> <span class="fu">numScore</span>(geneGridTrue, <span class="at">LShaped =</span> binSc, aWeightMifL, aWeightMifNonL))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 36</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>xVecFalse<span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(falseLMet[<span class="dv">1</span>,])</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>yVecFalse<span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(falseLExpr[<span class="dv">1</span>,])</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">messageTitle</span>(<span class="st">"Frequency count in first 'FALSE' gene"</span>)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>(geneGridFalse <span class="ot">&lt;-</span> <span class="fu">calcFreqs</span>(<span class="at">xMet=</span>xVecFalse, <span class="at">yExp=</span>yVecFalse, <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y1=</span><span class="cn">NULL</span>, <span class="at">y2=</span><span class="cn">NULL</span>, <span class="at">percY1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">percY2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">15</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>(maxminCountsF <span class="ot">&lt;-</span> <span class="fu">toReqMat</span> (<span class="fu">sum</span>(geneGridFalse), reqPercentages))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same value as maxminCountsT because it depends only on required percentages and sample size</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">messageTitle</span>(<span class="st">"Binary and numeric soring in first 'FALSE' gene"</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>(binSc<span class="ot">&lt;-</span><span class="fu">binScore</span> (geneGridFalse, maxminCountsF))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>(nsF<span class="ot">&lt;-</span> <span class="fu">numScore</span>(geneGridFalse, <span class="at">LShaped =</span> binSc, aWeightMifL, aWeightMifNonL))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -58</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of scatterplots scored  :  44 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of L-shape scatterplots :  9 </code></pre>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">FALSE</th>
+<th style="text-align: right;">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">9</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">-30</th>
+<th style="text-align: right;">-10</th>
+<th style="text-align: right;">-8</th>
+<th style="text-align: right;">-4</th>
+<th style="text-align: right;">-2</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">34</th>
+<th style="text-align: right;">36</th>
+<th style="text-align: right;">37</th>
+<th style="text-align: right;">41</th>
+<th style="text-align: right;">43</th>
+<th style="text-align: right;">45</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of scatterplots scored  :  44 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of L-shape scatterplots :  0 </code></pre>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">FALSE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">44</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">-256</th>
+<th style="text-align: right;">-206</th>
+<th style="text-align: right;">-168</th>
+<th style="text-align: right;">-148</th>
+<th style="text-align: right;">-112</th>
+<th style="text-align: right;">-110</th>
+<th style="text-align: right;">-108</th>
+<th style="text-align: right;">-96</th>
+<th style="text-align: right;">-92</th>
+<th style="text-align: right;">-76</th>
+<th style="text-align: right;">-72</th>
+<th style="text-align: right;">-68</th>
+<th style="text-align: right;">-66</th>
+<th style="text-align: right;">-46</th>
+<th style="text-align: right;">-42</th>
+<th style="text-align: right;">-40</th>
+<th style="text-align: right;">-36</th>
+<th style="text-align: right;">-34</th>
+<th style="text-align: right;">-32</th>
+<th style="text-align: right;">-18</th>
+<th style="text-align: right;">-16</th>
+<th style="text-align: right;">-12</th>
+<th style="text-align: right;">-10</th>
+<th style="text-align: right;">-8</th>
+<th style="text-align: right;">-6</th>
+<th style="text-align: right;">-4</th>
+<th style="text-align: right;">-2</th>
+<th style="text-align: right;">0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="putting-all-together-selecting-l-shaped-genes" class="level1 page-columns page-full">
+<h1>Putting all together: Selecting L-shaped genes</h1>
+<p>The goal of developing all these functions is being able to select L-shaped genes from a paired dataset (expression-methylation) in a way that is as flexible and as rapid and as good as possible.</p>
+<p>Essentially the process of selecting L-shape genes consists of three steps:</p>
+<ol type="1">
+<li>Select datasets (a pair of row-column matched matrices, one for expression and one for methylation). </li>
+<li>Set parameters:</li>
+</ol>
+<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">G</span></span></div><ol type="i">
+<li>Grid definition</li>
+<li>Binary Scoring ilii) Numerical Scoring</li>
+</ol>
+<ol start="3" type="1">
+<li>Score the selected data and return classificaation (scores and group) and plots for each gene.</li>
+</ol>
+<section id="parameters-selection" class="level2">
+<h2 class="anchored" data-anchor-id="parameters-selection">Parameters selection</h2>
+<p>As it has been shown in the examples above the functions may be applied sequentially to an expression-methylation pair using the <code>scoreGenesMat</code> function.</p>
+<p>We have selected a different set of parameters for DA and GEO datasets than for TCGA data, because as the sample size increases it seems reasonable (necessary) to be mor permisive. Strictly speaking only required percentages have been changed, not weights.</p>
+<section id="parameters-for-da-and-geo-datasets-small-samples" class="level3">
+<h3 class="anchored" data-anchor-id="parameters-for-da-and-geo-datasets-small-samples">Parameters for DA and GEO datasets (small samples)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>(reqPercentages   <span class="ot">&lt;-</span> <span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>(maxminCounts <span class="ot">&lt;-</span> <span class="fu">toReqMat</span>(<span class="fu">dim</span>(DAMetilData)[<span class="dv">2</span>], reqPercentages)) <span class="co"># Informative. NOt used in calculations because it is computed within the loop</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">theWeightMifL=</span><span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">2</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">25</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">theWeightMifNonL=</span><span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">25</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="parameters-for-tcga-datasets-big-samples" class="level3">
+<h3 class="anchored" data-anchor-id="parameters-for-tcga-datasets-big-samples">Parameters for TCGA datasets (big samples)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>(reqPercentages4TCGA <span class="ot">&lt;-</span> <span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">20</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">40</span>, <span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">4</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>(maxminCounts4TCGA <span class="ot">&lt;-</span> <span class="fu">toReqMat</span>(<span class="fu">dim</span>(TCGAMetilData)[<span class="dv">2</span>], reqPercentages4TCGA))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">89</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">9</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">theWeightMifL=</span><span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">2</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">25</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">theWeightMifNonL=</span><span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">25</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="scoring-datasets" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="scoring-datasets">Scoring datasets</h2>
+<p>Once the parameters have been set we can proceed to score and classify each dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>sampleSize <span class="ot">&lt;-</span> <span class="fu">dim</span>(DAMetilData)[<span class="dv">2</span>]</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>numGenes <span class="ot">&lt;-</span>   <span class="fu">dim</span>(DAMetilData)[<span class="dv">1</span>]</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="fu">messageTitle</span>(<span class="st">"Scoring ALL genes in the DA (microarrays) dataset"</span>)</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>scoresDA1 <span class="ot">&lt;-</span> <span class="fu">scoreGenesMat</span> (<span class="at">mets=</span>DAMetilData[<span class="dv">1</span><span class="sc">:</span>numGenes,],</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">expres=</span>DAExprData[<span class="dv">1</span><span class="sc">:</span>numGenes,],</span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">aReqPercentsMat=</span>reqPercentages,</span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>                            <span class="at">aWeightMifL=</span>theWeightMifL,</span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">aWeightMifNonL=</span>theWeightMifNonL )</span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of scatterplots scored  : "</span>, <span class="fu">dim</span>(scoresDA1)[<span class="dv">1</span>],<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of scatterplots scored  :  11359 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of L-shape scatterplots : "</span>, <span class="fu">sum</span>(scoresDA1[,<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of L-shape scatterplots :  214 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(scoresDA1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">logicSc</th>
+<th style="text-align: right;">numericSc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A1BG</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">-78</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A2M</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">-20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A2ML1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A4GALT</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A4GNT</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">-91</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AAAS</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(scoresDA1[,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">FALSE</th>
+<th style="text-align: right;">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11145</td>
+<td style="text-align: right;">214</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">messageTitle</span>(<span class="st">"Scoring ALL genes in the GEO dataset"</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>sampleSize <span class="ot">&lt;-</span> <span class="fu">dim</span>(geoMetilData)[<span class="dv">2</span>]</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>numGenes <span class="ot">&lt;-</span>   <span class="fu">dim</span>(geoMetilData)[<span class="dv">1</span>]</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>scoresGEO <span class="ot">&lt;-</span> <span class="fu">scoreGenesMat</span> (<span class="at">mets=</span>geoMetilData[<span class="dv">1</span><span class="sc">:</span>numGenes,],</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">expres=</span>geoExprData[<span class="dv">1</span><span class="sc">:</span>numGenes,],</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">aReqPercentsMat=</span>reqPercentages,</span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">aWeightMifL=</span>theWeightMifL,</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>                            <span class="at">aWeightMifNonL=</span>theWeightMifNonL )</span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of scatterplots scored  : "</span>, <span class="fu">dim</span>(scoresGEO)[<span class="dv">1</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of scatterplots scored  :  11191 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of L-shape scatterplots : "</span>, <span class="fu">sum</span>(scoresGEO[,<span class="dv">1</span>]), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of L-shape scatterplots :  39 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(scoresGEO[,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">FALSE</th>
+<th style="text-align: right;">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11152</td>
+<td style="text-align: right;">39</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>(sampleSize <span class="ot">&lt;-</span> <span class="fu">dim</span>(TCGAMetilData)[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 223</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>(numGenes <span class="ot">&lt;-</span>   <span class="fu">dim</span>(TCGAMetilData)[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11788</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>theGenes <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>numGenes</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>reqPercentages <span class="ot">&lt;-</span> <span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>(maxminCounts <span class="ot">&lt;-</span> <span class="fu">toReqMat</span>(sampleSize, reqPercentages))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">22</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">theWeightMifL=</span><span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">2</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span>sampleSize<span class="sc">/</span><span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-44.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">theWeightMifNonL=</span><span class="fu">matrix</span> (<span class="fu">c</span>(<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span>sampleSize<span class="sc">/</span><span class="dv">5</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-44.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-2.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">messageTitle</span>(<span class="st">"Scoring ALL genes in the TCGA (microarrays) dataset"</span>)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="co"># theGenes &lt;- c("ALDH1A2", "ALDH1A3", "APCDD1", "ARHGDIB", "ARHGDIG", "APC")</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>scoresTCGA <span class="ot">&lt;-</span> <span class="fu">scoreGenesMat</span> (<span class="at">mets=</span>TCGAMetilData[theGenes,],</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">expres=</span>TCGAExprData[theGenes,],</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">x1=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">x2=</span><span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">aReqPercentsMat=</span>reqPercentages,</span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">aWeightMifL=</span>theWeightMifL,</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>                            <span class="at">aWeightMifNonL=</span>theWeightMifNonL )</span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of scatterplots scored  : "</span>, <span class="fu">dim</span>(scoresTCGA)[<span class="dv">1</span>],<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of scatterplots scored  :  11788 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of L-shape scatterplots : "</span>, <span class="fu">sum</span>(scoresTCGA[,<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of L-shape scatterplots :  50 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(scoresTCGA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">logicSc</th>
+<th style="text-align: right;">numericSc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A1BG</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">-1224.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A2M</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">-182.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A2ML1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">-36.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A4GALT</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">-102.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A4GNT</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">-274.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AAAS</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(scoresTCGA[,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">FALSE</th>
+<th style="text-align: right;">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11738</td>
+<td style="text-align: right;">50</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We may use the scores obtained to sort genes from <code>most" to</code>least” L-shaped.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>orderDA1<span class="ot">&lt;-</span> <span class="fu">order</span>(scoresDA1[,<span class="dv">1</span>], scoresDA1[,<span class="dv">2</span>], <span class="fu">rownames</span>(scoresDA1),</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method=</span><span class="st">"radix"</span>, <span class="at">decreasing=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>orderGEO<span class="ot">&lt;-</span> <span class="fu">order</span>(scoresGEO[,<span class="dv">1</span>], scoresGEO[,<span class="dv">2</span>], <span class="fu">rownames</span>(scoresGEO),</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method=</span><span class="st">"radix"</span>, <span class="at">decreasing=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>orderTCGA<span class="ot">&lt;-</span> <span class="fu">order</span>(scoresTCGA[,<span class="dv">1</span>], scoresTCGA[,<span class="dv">2</span>], <span class="fu">rownames</span>(scoresTCGA),</span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method=</span><span class="st">"radix"</span>, <span class="at">decreasing=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now use this ordering to plot all genes starting by those that we consider L-shaped. The resulting plots are available in files</p>
+<ul>
+<li><code>DAExprAllScores.pdf</code> </li>
+<li><code>GEOLGenesScores.pdf</code></li>
+<li><code>TCGAGenesScores.pdf</code></li>
+</ul>
+<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">H</span></span></div><div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>DAMetilData[orderDA1,],</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>DAExprData[orderDA1,],</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName =</span><span class="st">"DAExprAllScores.pdf"</span>,</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">text4Title =</span> scoresDA1[orderDA1,<span class="st">"numericSc"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>geoMetilData[orderGEO,],</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>geoExprData[orderGEO,],</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName =</span><span class="st">"GEOLGenesScores.pdf"</span>,</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">text4Title =</span> scoresGEO[orderGEO,<span class="st">"numericSc"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>TCGAMetilData[orderTCGA,],</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>TCGAExprData[orderTCGA,],</span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName =</span><span class="st">"TCGALGenesScores.pdf"</span>,</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">text4Title =</span> scoresTCGA[orderTCGA,<span class="st">"numericSc"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
+</div>
+</div>
+<p>Alternatively instead of plotting all genes we may select L genes and plot only these. The resulting plots are avilable in files</p>
+<ul>
+<li><code>DAExprLGenesScores.pdf</code> </li>
+<li><code>DARNAseqLGenesScores.pdf</code></li>
+</ul>
+<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">I</span></span></div><div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>LgenesDAExpr <span class="ot">&lt;-</span> DAExprData[scoresDA1[,<span class="st">"logicSc"</span>],]</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(LgenesDAExpr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 214  30</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>geneListLDAExpr <span class="ot">&lt;-</span> <span class="fu">rownames</span>(DAExprData[scoresDA1[,<span class="st">"logicSc"</span>],])</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>DAMetilData[geneListLDAExpr,],</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>DAExprData[geneListLDAExpr,],</span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName =</span><span class="st">"DAExprLGenesScores.pdf"</span>,</span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">text4Title =</span> scoresDA1[geneListLDAExpr,<span class="st">"numericSc"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>LgenesGEOExpr <span class="ot">&lt;-</span> geoExprData[scoresGEO[,<span class="st">"logicSc"</span>],]</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(LgenesGEOExpr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 39 25</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>geneListLGEOExpr <span class="ot">&lt;-</span> <span class="fu">rownames</span>(geoExprData[scoresGEO[,<span class="st">"logicSc"</span>],])</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>geoMetilData[geneListLGEOExpr,],</span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>geoExprData[geneListLGEOExpr,],</span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName =</span><span class="st">"geoExprLGenesScores.pdf"</span>,</span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">text4Title =</span> scoresGEO[geneListLGEOExpr,<span class="st">"numericSc"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>LgenesTCGA <span class="ot">&lt;-</span> TCGAExprData[scoresTCGA[,<span class="st">"logicSc"</span>],]</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(LgenesTCGA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  50 223</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>geneListLTCGA <span class="ot">&lt;-</span> <span class="fu">rownames</span>(TCGAExprData[scoresTCGA[,<span class="st">"logicSc"</span>],])</span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>TCGAMetilData[geneListLTCGA,],</span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>TCGAExprData[geneListLTCGA,],</span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName =</span><span class="st">"TCGALGenesScores.pdf"</span>,</span>
+<span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">text4Title =</span> scoresTCGA[geneListLTCGA,<span class="st">"numericSc"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(geneListLDAExpr, geneListLGEOExpr,  geneListLTCGA,</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">file=</span><span class="fu">file.path</span>(resultsDir, <span class="st">"geneListsL1.RData"</span>))</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>myVenn4<span class="ot">&lt;-</span> <span class="fu">venn.diagram</span>(<span class="at">x=</span><span class="fu">list</span>(<span class="at">DAMicroarrays=</span>geneListLDAExpr,</span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">GEOData=</span>geneListLGEOExpr,</span>
+<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">TCGAData=</span>geneListLTCGA),</span>
+<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">filename=</span><span class="cn">NULL</span>, <span class="at">lty =</span> <span class="st">"blank"</span>,</span>
+<span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a>                              <span class="at">fill=</span><span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"red"</span>, <span class="st">"yellow"</span>))</span>
+<span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.draw</span>(myVenn4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Selecting_GRM_with_Lheuristic_files/figure-html/selectLGenes1-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>Or it can be applied to a pre-filtered subset, such as genes showing a significantly negative correlation.</p>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+</section>
+
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

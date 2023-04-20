@@ -1,0 +1,495 @@
+---
+title: "Benchmarking of tools for the analysis of methylation and expression data"
+author: "BM"
+date: "`r Sys.Date()`"
+output:
+    prettydoc::html_pretty:
+    toc: true
+    toc_depth: 4
+    number_sections: true  
+    theme: tactile
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introduction
+
+# Methodology
+
+Tools were obtained from the tool catalogue **bio.tools**, using the keywords *methylation analysis* and *R package*, were 39 tools were identified. Using the keywords *methylation expression analysis* and *BioConductor*, 18 tools were identified. The lists of tools are as follows. Of these, common tools identified were: BPRtools, MEAL, COHCAP, MassArray, FEM, and NanoMethVIz.
+
+# Tools identified
+The following information was collated based on the description of the tool in **bio.tools** 18 tools listed from the specific keywords.
+
+## ELMER
+
+This tool is designed to use DNA methylation and gene expression from a large number of samples to infer a regulatory element landscape and transcription factor network in primary tissues. It builds regulatory networks comparing control and tumor samples (by paring methylation and expression data) and correlating that to nearby probes and transcription factors through genome mapping with genome ranges.
+
+Reference: https://academic.oup.com/bioinformatics/article/35/11/1974/5145133
+http://bioconductor.org/packages/release/bioc/html/ELMER.html
+
+
+## MethylMix
+
+Algorithm implemented to identify hyper/hypomethylated genes for a disease. Based on a beta mixture model to identify methylation states and compares them with the normal DNA methylation state. It uses the Differential Methylation value or DM-value defined as the difference of a methylation state with the normal methylation state. Matched gene expression data is used to identify, besides differential, functional methylation states by focusing on methylation changes that effect gene expression.
+The package requires 3 files to be provided: Methylation normal, Methylation cancer and GE cancer. With the 3rd dataset, it looks exclusively at negatively correlated data to identify genes regulated by methylation.
+http://bioconductor.org/packages/release/bioc/html/MethylMix.html
+
+References: 
+Gevaert 0. MethylMix: an R package for identifying DNA methylation-driven genes. Bioinformatics (Oxford, England). 2015;31(11):1839-41. doi:10.1093/bioinformatics/btv020. 
+Gevaert O, Tibshirani R, Plevritis SK. Pancancer analysis of DNA methylation-driven genes using MethylMix. Genome Biology. 2015;16(1):17. doi:10.1186/s13059-014-0579-8.
+
+
+## GGtools
+
+Software and data for analyses in genetics of gene expression and/or DNA methylation. The package identifies eQTLs from associations of DNA polymorphisms and mRNA abundance by exploring public and private archives of genotyping and expression arrays.
+
+Reference:
+Carey VJ, Davis AR, Lawrence MF, Gentleman R, Raby BA (2009). “Data structures and algorithms for analysis of genetics of gene expression with Bioconductor: GGtools 3.x.” Bioinformatics, 25(11), 1447–8. doi: 10.1093/bioinformatics/btp169, http://bioinformatics.oxfordjournals.org/content/25/11/1447.long.
+http://bioconductor.org/packages/release/bioc/html/GGtools.html
+
+## COHCAP
+
+This package provides a pipeline to analyze single-nucleotide resolution methylation data (Illumina 450k/EPIC methylation array, targeted BS-Seq, etc.). It provides QC metrics, differential methylation for CpG Sites, differential methylation for CpG Islands, integration with gene expression data, and visualization of methylation values.
+
+
+http://bioconductor.org/packages/release/bioc/html/COHCAP.html
+
+## MEAL
+
+Package to integrate methylation and expression data. It can also perform methylation or expression analysis alone. Several plotting functionalities are included as well as a new region analysis based on redundancy analysis. Effect of SNPs on a region can also be estimated.
+Expression and methylation analyses are correlation based. Additionally, a visualization option is available.
+
+Reference: 
+Ruiz-Arenas C, Gonzalez J (2021). MEAL: Perform methylation analysis. R package version 1.20.4.
+http://bioconductor.org/packages/release/bioc/html/MEAL.html
+
+## FEM
+
+This package performs a systems-level integrative analysis of DNA methylation and gene expression data. It seeks modules of functionally related genes which exhibit differential promoter DNA methylation and differential expression, where an inverse association between promoter DNA methylation and gene expression is assumed.
+Removed from BioConductor in October 2020.
+
+http://http://bioconductor.riken.jp/packages/3.7/bioc/html/FEM.html
+
+## MassArray
+
+This package is designed for the import, quality control, analysis, and visualization of methylation data generated using Sequenom's platform. The tools herein contain a highly detailed amplicon prediction for optimal assay design. Also included are quality control measures of data, such as primer dimer and bisulfite conversion efficiency estimation. Methylation data are calculated using the same algorithms contained in the EpiTyper software package.
+http://bioconductor.org/packages/release/bioc/html/MassArray.html
+
+## BPRMeth
+
+This package uses the Binomial Probit Regression likelihood to model methylation profiles and extract higher order features. These features quantitate precisely notions of shape of a methylation profile. Using these higher order features across promoter-proximal regions, we construct a powerful predictor of gene expression. Also, these features are used to cluster proximal-promoter regions using the EM algorithm.
+From methylation array data and annotation data, it can provide various results, for example gene expression prediction or clustering of methylation profiles, through modeling algorithms.
+
+Reference: Kapourani CA, Sanguinetti G (2018). “BPRMeth: a flexible Bioconductor package for modelling methylation profiles.” Bioinformatics, 34, 2485-2486. doi: 10.1093/bioinformatics/bty129.
+http://bioconductor.org/packages/release/bioc/html/BPRMeth.html
+
+## TCGAbiolinksGUI
+
+A Graphical User Interface to analyze cancer molecular and clinical data. For integrative analysis it works with various data inputs like DEA (Differentially gene Expression Analysis), DMR (Differentially Methylated Regions)  or outputs generated with the ELMER package.
+
+http://bioconductor.org/packages/release/bioc/html/TCGAbiolinksGUI.html
+
+## DSS
+
+R library that performs differential analysis for count-based sequencing data. It detects differentially expressed genes (DEGs) from RNA-seq and differentially methylated loci or regions (DML/DMRs) from bisulfite sequencing (BS-seq). Its core is a new dispersion shrinkage method for estimating the dispersion parameter from Gamma-Poisson or Beta-Binomial distributions.
+http://bioconductor.org/packages/release/bioc/html/DSS.html
+
+## SMITE
+
+This package builds on the Epimods framework which facilitates finding weighted subnetworks ("modules") on Illumina Infinium 27k arrays using the SpinGlass algorithm, as implemented in the iGraph package. We have created a class of gene centric annotations associated with p-values and effect sizes and scores from any researchers prior statistical results to find functional modules.
+http://bioconductor.org/packages/release/bioc/html/SMITE.html
+
+## canceR
+
+This package is a user friendly interface based on the cgdsr and other modeling packages to explore, compare, and analyse all available cancer data (Clinical data, Gene Mutation, Gene Methylation, Gene Expression, Protein Phosphorylation, Copy Number Alteration) hosted by the Computational Biology Center at Memorial-Sloan-Kettering Cancer Center (MSKCC).
+http://bioconductor.org/packages/release/bioc/html/canceR.html
+
+## lumi
+
+This package provides an integrated solution for the Illumina microarray data analysis. It includes functions of Illumina BeadStudio (GenomeStudio) data input, quality control, BeadArray-specific variance stabilization, normalization and gene annotation at the probe level. It also includes the functions of processing Illumina methylation microarrays, especially Illumina Infinium methylation microarrays.
+http://bioconductor.org/packages/release/bioc/html/lumi.html
+
+## IWTomics
+
+Implementation of the Interval-Wise Testing (IWT) for omics data. This inferential procedure tests for differences in "Omics" data between two groups of genomic regions (or between a group of genomic regions and a reference center of symmetry), and does not require fixing location and scale at the outset.
+http://bioconductor.org/packages/release/bioc/html/IWTomics.html
+
+## M3D
+
+This package identifies statistically significantly differentially methylated regions of CpGs. It uses kernel methods (the Maximum Mean Discrepancy) to measure differences in methylation profiles, and relates these to inter-replicate changes, whilst accounting for variation in coverage profiles.
+https://bioconductor.riken.jp/packages/3.1/bioc/html/M3D.html
+
+
+## Repitools
+
+Tools for the analysis of enrichment-based epigenomic data. Features include summarization and visualization of epigenomic data across promoters according to gene expression context, finding regions of differential methylation/binding, BayMeth for quantifying methylation etc.
+http://bioconductor.org/packages/release/bioc/html/Repitools.html
+
+## omicRexposome
+
+It systematizes the association evaluation between exposures and omic data, taking advantage of MultiDataSet for coordinated data management, rexposome for exposome data definition and limma for association testing. Also to perform data integration mixing exposome and omic data using multi co-inherent analysis (omicade4) and multi-canonical correlation analysis (PMA).
+http://bioconductor.org/packages/release/bioc/html/omicRexposome.html
+
+## NanoMethViz
+
+An R/Bioconductor package for visualizing long-read methylation data. Visualise methlation data from Oxford Nanopore sequencing. NanoMethViz is a toolkit for visualising methylation data from Oxford Nanopore sequencing. It can be used to explore methylation patterns from reads derived from Oxford Nanopore direct DNA sequencing with methylation called by callers including nanopolish, f5c and megalodon. The plots in this package allow the visualisation of methylation profiles aggregated over experimental groups and across classes of genomic features.
+https://bioconductor.org/packages/NanoMethViz
+
+
+From the 39 tools identified with more generalized keywords:
+
+## EpiMethEx
+
+R package for large-scale integrated analysis in methylation hotspots linked to genetic regulation.
+https://github.com/giupardeb/EpiMethEx
+
+## MultiDataSet
+
+Implementation of the BRGE's (Bioinformatic Research Group in Epidemiology from Center for Research in Environmental Epidemiology) dataset and MethylationSet. It is designed for integrating multi omics data sets and MethylationSet to contain normalized methylation data. These package contains base classes for MEAL and rexposome packages.
+http://bioconductor.org/packages/release/bioc/html/MultiDataSet.html
+
+## IMIX
+
+A multivariate mixture model approach to integrative analysis of multiple types of omics data. R package for integrative genomics analysis using a multivariate mixture model framework. Ziqiao Wang and Peng Wei. IMIX: A multivariate mixture model approach to integrative analysis of multiple types of omics data. bioRxiv 2020.06.23.167312; doi: https://doi.org/10.1101/2020.06.23.167312.
+https://github.com/ziqiaow/IMIX
+
+
+# Tools selected
+
+Tested with a common dataset from the ELMER package.
+
+```{r, echo = FALSE, results = 'hide', message = F, warning=FALSE}
+# if (!requireNamespace("BiocManager", quietly=TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install(ELMER)
+# BiocManager::install(MethylMix)
+```
+
+## ELMER
+
+The ELMER package was tested using the default dataset and functions found in the package vignettes. The datset used is the 
+
+ELMER workflow: ELMER receives as input a DNA methylation object, a gene expression object (both can be either a matrix or a SummarizedExperiment object) and a Genomic Ranges (GRanges) object with distal probes to be used as a filter which can be retrieved. Additionally, it requires clinical data to classify samples in normal vs diseases (e.j. tumor vs non tumor). The function `createMAE` will create a Multi Assay Experiment object keeping only samples that have both DNA methylation and gene expression data. Genes will be mapped to genomic position and annotated using ENSEMBL database, while for probes it will add annotation from (http://zwdzwd.github.io/InfiniumAnnotation). This **MAE** object will be used as input to the next analysis functions. First, it identifies differentially methylated probes (between tunor and non tumor samples) followed by the identification of their nearest genes (10 upstream and 10 downstream, or depending on the selection more or less genes) through the `get.diff.meth` and `GetNearGenes` functions, respectively. For each probe, it will verify if any of the nearby genes were affected by its change in the DNA methylation level and a list of gene and probes pairs will be outputted from `get.pair` function. 
+
+For the probes in those pairs, further search of enriched motifs in regulatory transcription factors can be computed. This final function will not be conducted in this package test.
+
+The parameters tested resulted as follows:
+
+ELMER will search for probes hypomethylated in group Primary solid Tumor (n:226) compared to Solid Tissue Normal (n:8)
+ooo Arguments ooo
+o Number of probes: 1642
+o Beta value difference cut-off: 0.3
+o FDR cut-off: 0.01
+o Mode: unsupervised
+o % of samples per group in each comparison: 0.2
+o Min number of samples per group in each comparison: 5
+o Nb of samples group1 in each comparison: 45
+o Nb of samples group2 in each comparison: 5
+
+Number of relevant probes found: 710
+
+```{r, echo = FALSE, results = 'hide', message = F, warning=FALSE}
+library(ELMER)
+library(MultiAssayExperiment)
+library(ELMER.data)
+
+# get distal probes that are 2kb away from TSS on chromosome 1
+distal.probes <- get.feature.probe(genome = "hg19", 
+                                   met.platform = "450K", 
+                                   rm.chr = paste0("chr",c(2:22,"X","Y")))
+
+data(LUSC_RNA_refined,package = "ELMER.data") # GeneExp
+data(LUSC_meth_refined,package = "ELMER.data") # Meth
+
+mae <- createMAE(exp = GeneExp, 
+                 met = Meth,
+                 save = TRUE,
+                 linearize.exp = TRUE,
+                 save.filename = "mae.rda",
+                 filter.probes = distal.probes,
+                 met.platform = "450K",
+                 genome = "hg19",
+                 TCGA = TRUE)
+
+group.col <- "definition"
+group1 <-  "Primary solid Tumor"
+group2 <- "Solid Tissue Normal"
+dir.out <- "ELMERresult"
+diff.dir <-  "hypo" # Search for hypomethylated probes in group 1
+
+sig.diff <- get.diff.meth(data = mae, 
+                          group.col = group.col,
+                          group1 = group1,
+                          group2 = group2,
+                          minSubgroupFrac = 0.2,
+                          sig.dif = 0.3,
+                          diff.dir = diff.dir,
+                          cores = 1, 
+                          dir.out = dir.out,
+                          pvalue = 0.01)
+
+nearGenes1 <- GetNearGenes(data = mae, 
+                          probes = sig.diff$probe, 
+                          numFlankingGenes = 20) # 10 upstream and 10 dowstream genes
+
+pair <- get.pair(data = mae,
+                 group.col = group.col,
+                 group1 = group1,
+                 mode = "unsupervised",
+                 group2 = group2,
+                 nearGenes = nearGenes1,
+                 diff.dir = diff.dir,
+                 minSubgroupFrac = 0.4, # % of samples to use in to create groups U/M
+                 permu.dir = file.path(dir.out,"permu"),
+                 permu.size = 100, # Please set to 100000 to get significant results
+                 raw.pvalue = 0.05,   
+                 Pe = 0.01, # Please set to 0.001 to get significant results
+                 filter.probes = TRUE, # See preAssociationProbeFiltering function
+                 filter.percentage = 0.05,
+                 filter.portion = 0.3,
+                 dir.out = dir.out,
+                 cores = 1,
+                 label = diff.dir)
+
+elmer_genes <- pair$Symbol
+```
+
+### Scatter plot of one probe and its nearby genes
+```{r}
+scatter.plot(data = mae,
+             byProbe = list(probe = c("cg19403323"), numFlankingGenes = 20), 
+             category = "definition", 
+             lm = TRUE, # Draw linear regression curve
+             save = FALSE) 
+```
+
+### Scatter plot of one probe and gene pair
+```{r}
+scatter.plot(data = mae,
+             byPair = list(probe = c("cg19403323"), gene = c("ENSG00000143469")), 
+             category = "definition", save = TRUE, lm_line = TRUE)
+```
+
+### Heatmap
+```{r}
+heatmapPairs(data = mae, 
+             group.col = "definition",
+             group1 = "Primary solid Tumor", 
+             annotation.col = c("years_smoked","gender"),
+             group2 = "Solid Tissue Normal",
+             pairs = pair,
+             filename =  NULL)
+```
+
+```{r, echo = FALSE, results = 'hide', message = F, warning=FALSE}
+## Create dataset for methylation and for gene expression with matching rows and columns (number and names)
+## For methylmix, also get the group1 vs group 2 information
+GeneEx <- as.data.frame(GeneExp)
+GeneEx$GeneID <- rownames(GeneEx)
+
+#Increase the number of genes per flank to get more numbers for conversion to gene symbol
+#481 pairs with 60 flanking genes, permut to 100, Pe = 0.01. From the ELMER package
+nearGenes <- GetNearGenes(data = mae, 
+                          probes = sig.diff$probe, 
+                          numFlankingGenes = 60) # 50 upstream and 50 donwstream genes
+
+GenExp <- merge(GeneEx, nearGenes, by= "GeneID")
+GenExp1 <-  GenExp[!duplicated(GenExp$GeneID),]
+rownames(GenExp1) <- GenExp1$Symbol
+coltodrop <- c("ID", "Symbol", "Distance", "Side", "GeneID")
+GenExp2 <- GenExp1[, !(names(GenExp1) %in% coltodrop)]
+
+Meth1 <- as.data.frame(Meth)
+Meth1$ID <- rownames(Meth1)
+
+Meth2 <- merge(Meth1, nearGenes, by= "ID")
+Meth3 <-  Meth2[!duplicated(Meth2$Symbol),]
+rownames(Meth3) <- Meth3$Symbol
+coltodrop <- c("ID", "Symbol", "Distance", "Side", "GeneID")
+Meth4 <- Meth3[, !(names(Meth3) %in% coltodrop)]
+Meth5 <-  Meth4[!duplicated(colnames(Meth4))]
+colnames(GenExp2) <- substring(colnames(GenExp2),1,12)
+colnames(Meth5) <- substring(colnames(Meth5),1,12)
+
+
+#now that the names have been converted to gene symbol and homogenized the TCGA sample names, we can match between the gene experession and the methylation datasets
+
+cn <-  intersect(names(Meth5),names(GenExp2))
+
+GenExp3 <- GenExp2[,cn]
+Meth6 <- Meth5[,cn]
+
+Meth6 <- Meth6[complete.cases(Meth6), ]
+GenExp3 <- GenExp3[complete.cases(GenExp3), ]
+
+rw <-  intersect(rownames(Meth6), rownames(GenExp3))
+GenExp4 <- GenExp3[rw,]
+Meth7 <- Meth6[rw,]
+```
+
+
+## LHeuristic
+
+The Lheuristic package receives input from 2 matched matrices and expression matrix and a methylation matrix, both with the same genes and samples. This requires a step in which the probes will have to be converted to gene names (Gene Symbol).
+
+
+The input parameters were as follows:
+
+* Sample size: 227 samples and 1952 genes
+* Percentages matrix: 4, 20, 5, 
+                      1, 40, 20, 
+                      0, 1,  4
+                      
+* Weights matrix for Lshaped samples: 2,-2,-25,
+                                      1, 0,-2,
+                                      1, 1, 2
+
+* Weights matrix for non--Lsahaped samples: 0,-2,-25,
+                                            0, 0,-2,
+                                            0, 0, 0
+
+
+
+```{r, echo = FALSE, results = 'hide', message = F, warning=FALSE}
+# library(devtools)
+# install_github("alexsanchezpla/Lheuristic", dependencies = TRUE)
+library(Lheuristic)
+
+#source("Rcode/gridFunctions.R") per si Lheuristic no carrega
+
+# TCGA dataset from ELMER
+
+met <- as.matrix(Meth7)
+expr <- as.matrix(GenExp4)
+
+#(reqPercentages   <- matrix (c(10, 20, 1, 5, 40, 20, 0, 5, 10), nrow=3, byrow=TRUE))
+#0 Lshaped genes
+
+(reqPercentages4art <- matrix (c(4, 20, 5, 1, 40, 20, 0, 1, 4), nrow=3, byrow=TRUE))
+#18 Lshaped genes
+
+(theWeightMifL=matrix (c(2,-2,-25,1,0,-2,1,1,2), nrow=3, byrow=TRUE))
+(theWeightMifNonL=matrix (c(0,-2,-25,0,0,-2,0,0,0), nrow=3, byrow=TRUE))
+
+
+sampleSize <- dim(met)[2]
+numGenes <-   dim(met)[1]
+
+messageTitle("Scoring ALL genes in the artificial expression dataset")
+
+#Error in if (!LShaped) { : missing value where TRUE/FALSE needed means NAs in dataset
+#Error in mets[theGene, ] : subscript out of bounds means met/expr not matched matrices
+
+scoresart1 <- scoreGenesMat (mets=met,
+							              expres=expr,
+                            aReqPercentsMat=reqPercentages4art,
+                            aWeightMifL=theWeightMifL,
+                            aWeightMifNonL=theWeightMifNonL )
+cat("Number of scatterplots scored  : ", dim(scoresart1)[1],"\n")
+cat("Number of L-shape scatterplots : ", sum(scoresart1[,1]),"\n")
+head(scoresart1)
+table(scoresart1[,1])
+selectedHeuristic <- scoresart1[scoresart1$logicSc,]
+
+#save(scoresart1, selectedHeuristic, 
+#         file="results/heuristicSelections_artificial.Rda")
+selectedGenesHeuristic <- rownames(selectedHeuristic)
+#save(selectedGenesHeuristic, file="results/heuristicSelectionsGeneNames.Rda")
+```
+
+## MethylMix
+
+To run MethylMix three data sets of a particular disease are required. The first one is the methylation data for the disease samples, **METcancer**, which allows to identify methylation states associated with a disease for each gene of interest. The second is an appropriate normal or baseline methylation data, **METnormal**, which is used to distinguish between hyper or increased methylation vs. hypo or decreased methylation. Finally, the third data set is matched gene expression data for the disease samples, **GEcancer**, which is used to identify functional differnential methylation by focusing only on differentialy methylation that has a significant inversely correlated effect on gene expression.
+
+Each of these three data sets are matrix objects with genes in the rows with unique rownames (e.g. gene symbols) and samples or patients in the columns with unique patient names. If downloading data directly from TCGA, the `GetData` function saves an R object which contains these matrices in the correct format. 
+
+Input data: Sample size: 
+
+* METcancer: 219 samples and 1952 genes
+* GEcancer: 219 samples and 1952 genes
+* METnormal: 8 samples and 1952 genes
+
+The output from the `MethylMix` function is a list with the following elements:
+
+* MethylationDrivers: Genes identified as transcriptionally predictive and differentially methylated by MethylMix.
+* NrComponents: The number of methylation states found for each driver gene.
+* MixtureStates: A list with the DM-values for each driver gene.
+* MethylationStates: Matrix with DM-values for all driver genes (rows) and all samples (columns).
+* Classifications: Matrix with integers indicating to which mixture component each cancer sample was assigned to, for each gene.
+* Models: Beta mixture model parameters for each driver gene.
+Differential Methylation values (DM-values) are defined as the difference between the methylation mean in one mixture component of cancer samples and the methylation mean in the normal samples, for a given gene.
+
+```{r, echo = FALSE, results = 'hide', message = F, warning=FALSE}
+#further data preps for MethylMix
+mae_dat <- as.data.frame(colData(mae))
+mae_dat$sample <- substring(mae_dat$sample ,1,12)
+
+mae_dat_tum <- mae_dat[mae_dat$shortLetterCode == "TP", ]
+mae_dat_norm <- mae_dat[mae_dat$shortLetterCode == "NT", ]
+
+GExp <- GenExp4
+Met <- Meth7
+
+Metcan <- Met[,colnames(Met) %in% mae_dat_tum$sample]
+Metnorm <- Met[,colnames(Met) %in% mae_dat_norm$sample]
+
+xcol <- intersect(colnames(Metcan), colnames(Metnorm))
+Metcan1 <- Metcan[ , -which(names(Metcan) %in% xcol)]
+
+GEcan <- GExp[,colnames(GExp) %in% colnames(Metcan1)]
+
+library(MethylMix)
+
+METcancer <- as.matrix(Metcan1)
+GEcancer <- as.matrix(GEcan)
+METnormal <- as.matrix(Metnorm)
+
+MethylMixResults <- MethylMix(METcancer, GEcancer, METnormal)
+
+metmix_genes <- MethylMixResults$MethylationDrivers
+```
+
+```{r}
+plots <- MethylMix_PlotModel(metmix_genes[1], MethylMixResults, METcancer)
+plots$MixtureModelPlot
+
+plots <- MethylMix_PlotModel(metmix_genes[1], MethylMixResults, METcancer, GEcancer, METnormal)
+plots$MixtureModelPlot
+plots$CorrelationPlot
+```
+
+
+## Test results
+
+The results obtained from each package are compared in the Venn diagram below.
+
+```{r}
+library(VennDiagram)
+y = elmer_genes[duplicated(elmer_genes)]
+elmer_genes1 <- elmer_genes[!(elmer_genes %in% y)]
+
+myVenn1 <- venn.diagram(x=list(ELMER= elmer_genes1, 
+                              Lheuristic= selectedGenesHeuristic,
+                              MethylMix= metmix_genes), 
+                              filename=NULL, lty = "blank",  
+                              fill=c("pink1", "skyblue", "mediumorchid"),
+                       main="Genes in common between the three methods")
+grid.newpage()
+grid.draw(myVenn1)
+```
+
+
+# Key findings
+
+* Both ELMER and MethylMix analyze the differential methylation between a baseline and a disease group of samples and from the differentially methylated they check for a negative relationship with gene expression.
+
+* The main difference between ELMER and MethylMix is regarding methylation probe matching to respective genes. ELMER uses the nearest genes to match differentially methylated probes, whereas MethylMix converts the probes to gene symbols prior to running the differential analysis.
+
+* Both Lheuristic and MethylMix require a matched methylation and expression object. Additionally, the probes should be converted to unique gen names (gene symbols) before running the functions.
+
+* The main differences between Lheuristic and the other 2 packages is that Lheuristic does not select methylation probes by differential methylation and it does not use a negative correlation to associate methylation with expression.
+
+* The ELMER and the Lheuristic packages identified 4 common genes
+
+* MethylMix, despite the apparent similarities with the ELMER package, did not get any common genes with neither ELMER nor Lheuristic.
