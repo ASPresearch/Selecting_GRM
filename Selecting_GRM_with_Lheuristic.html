@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-04-20">
+<meta name="dcterms.date" content="2023-04-21">
 
 <title>Selection of L-shaped genes using a heuristic algorithm</title>
 <style>
@@ -97,6 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="Selecting_GRM_with_Lheuristic_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Selecting_GRM_with_Lheuristic_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Selecting_GRM_with_Lheuristic_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script async="" src="https://hypothes.is/embed.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -110,7 +111,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#basic-pipeline" id="toc-basic-pipeline" class="nav-link" data-scroll-target="#basic-pipeline">Basic pipeline</a></li>
+  </ul></li>
   <li><a href="#the-data-for-the-analysis" id="toc-the-data-for-the-analysis" class="nav-link" data-scroll-target="#the-data-for-the-analysis">The data for the analysis</a>
   <ul class="collapse">
   <li><a href="#real-datasets" id="toc-real-datasets" class="nav-link" data-scroll-target="#real-datasets">Real datasets</a>
@@ -159,8 +163,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Authors</div>
     <div class="quarto-title-meta-contents">
-             <p>S'anchez-Pla, Alex<span class="math inline">\(^{1,3}\)</span>, </p>
-             <p>Mir'o, Berta<span class="math inline">\(^3\)</span>, </p>
+             <p>Sánchez-Pla, Alex<span class="math inline">\(^{1,3}\)</span>, </p>
+             <p>Miró, Berta<span class="math inline">\(^3\)</span>, </p>
              <p>Carmona, Francesc<span class="math inline">\(^1\)</span>, </p>
              <p>Bazzoco, Sara<span class="math inline">\(^2\)</span>, </p>
              <p>Arango, Diego<span class="math inline">\(^2\)</span> </p>
@@ -170,7 +174,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023-04-20</p>
+      <p class="date">April 21, 2023</p>
     </div>
   </div>
   
@@ -180,34 +184,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-\author{
-<section id="introduction" class="level1 page-columns page-full">
+<!-- ```{r include=FALSE} -->
+<!-- require(Hmisc) -->
+<!-- options(qproject='rms', prType='html') -->
+<!-- getRs('reptools.r') -->
+<!-- getRs('qbookfun.r') -->
+<!-- hookaddcap() -->
+<!-- knitr::set_alias(w = 'fig.width', h = 'fig.height', cap = 'fig.cap', scap ='fig.scap') -->
+<!-- ``` -->
+<section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>This document contains examples / applications on how to select L-shaped genes from two data matrices, an expression and a methylation matrix, matched by rows (genes) and columns(samplea), using the algorithms implemented by the authors and described elsewhere.</p>
-<p>The idea is to “keep-it-simple” so that it can serve as the basis for other applications such as a program that optimizes the parameters or for a graphical user interface based in Shiny.</p>
-<p>Essentially what the program does is</p>
+<p>This document contains examples on how to select genes potentially regulated by methylation and characterized by an L-shaped scatterplot using an heuristic algorithm, implemented in the R <code>Lheuristic</code>package.</p>
+<p>The idea is to “keep-it-simple” so it can teach potentially users on how to select L-shaped genes started from a pair of matrices, an expression and a methylation matrix, matched by rows (genes) and columns (individuals).</p>
+<p>A graphical user interface based in Shiny is also available to use the package.</p>
+<section id="basic-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="basic-pipeline">Basic pipeline</h2>
+<p>The basic steps for selecting L-shaped genes using the package is as follows:</p>
+<ol type="1">
+<li>Input data</li>
+</ol>
 <ul>
-<li><p>Data input </p>
+<li>Select/Load expression values from a csv file.</li>
+<li>Select/Load methylation values from a csv file.</li>
+</ul>
+<ol start="2" type="1">
+<li>Prepare data for the analysis</li>
+</ol>
 <ul>
-<li>Select (Load) expression values from a csv file</li>
-<li>Select (Load) methylation values from a csv file</li>
-<li>Data preprocessing may need to be done automatically so that its results can be used for filtering.</li>
+<li>Preprocess and normalize each dataset separately as required by the technology used.</li>
+<li>Format both datasets so taht they match by row names and colum names.</li>
+</ul>
+<ol start="3" type="1">
+<li>Set parameter values</li>
+</ol>
+<ul>
+<li>For data use. For instance keep only those genes that pass certain filters such as showing negative correlation between expression and methylation.</li>
+<li>For L-shape selection method
+<ul>
+<li>Select the methods to be used (naive, negative correlation or L-shape) and the parameters to apply each method.</li>
 </ul></li>
-<li><p>Set parameter values</p></li>
-<li><p>For data use (all genes or only those that pass certain filters (corr &lt; 0))</p></li>
-<li><p>For L-shape selection method: Here one may want to select the method and its parameters (each method has a different set of parameters)</p></li>
-<li><p>Data processing (For each method and set of parameters …)</p>
+</ul>
+<ol start="4" type="1">
+<li>Process data</li>
+</ol>
 <ul>
-<li>Run the computation and “mark” L-shape genes</li>
+<li>Run the computation and call genes as TRUE or FALSE L-shapes,.</li>
 <li>Draw the scatterplots of either all genes or only selected genes</li>
-</ul></li>
-<li><p>Data output (For each method and set of parameters …)</p>
+<li>Compare the output of naive and L-shape methods.</li>
+</ul>
+<ol start="5" type="1">
+<li>Data output (For each method and set of parameters …)</li>
+</ol>
 <ul>
 <li>Save (Download) the resulting gene list(s)</li>
 <li>Save (Download) the scatterplots</li>
-</ul></li>
 </ul>
-<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">A</span></span></div><div class="cell">
+<div class="cell">
 
 </div>
 <div class="cell">
@@ -219,18 +251,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lheuristic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+</section>
 <section id="the-data-for-the-analysis" class="level1 page-columns page-full">
 <h1>The data for the analysis</h1>
 <section id="real-datasets" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="real-datasets">Real datasets</h2>
 <p>There are several datasets available for analysis obtained from distinct sources:</p>
+<div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class="">Add reference to sources in the bibliography</span></div></div>
 <ol type="1">
-<li>DA1. Expression microarrays (<code>DAMicroarrays.csv</code>) and methylation array (<code>DAMetilacion.csv</code>) on 25 cell llines </li>
-<li>DA2. Expression RNAseq (<code>DARNAseq.csv</code>) and methylation array (<code>DAMetilacion.csv</code>) on 25 cell llines</li>
+<li>DA1. Expression microarrays (<code>DAMicroarrays.csv</code>) and methylation array (<code>DAMetilacion.csv</code>) on 25 cell llines.</li>
+<li>DA2. Expression RNAseq (<code>DARNAseq.csv</code>) and methylation array (<code>DAMetilacion.csv</code>) on 25 cell llines.</li>
 <li>GEO1. Expression microarrays (Illumina beadchips, <code>geoMicroarrays.csv</code>) and methylation array (Illumina 25kMethArray, <code>geoMetilacion.csv</code>) on 25 CRC samples. The data have been collected from the GEO database records: GSE25062 for the methylation data and GSE25070 for the expression data. The dataset has been created by taking the expression values available for 26 CRC tumors and matching with their corresponding methylation values.</li>
 <li><code>TCGA</code> dataset has been obtained from The Cancer Genome Atlas Database (TCGA) (Colon Adenocarcinoma (<code>COAD</code>) Nature 2012 dataset) and downloaded through the cBioportal website.</li>
 </ol>
-<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">B</span></span></div><p>A summary of each datasets follows below:</p>
+<p>A summary of each datasets follows below:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(printr)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>DAExprData <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="at">file=</span><span class="fu">file.path</span>(dadesDir,<span class="st">"DatosMicroarrays.csv"</span>), <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">";"</span>, <span class="at">dec=</span><span class="st">","</span>, <span class="at">row.names =</span> <span class="dv">1</span>))</span>
@@ -521,14 +555,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 </section>
 </section>
-<section id="scoring-scatterplots" class="level1 page-columns page-full">
+<section id="scoring-scatterplots" class="level1">
 <h1>Scoring scatterplots</h1>
-<section id="the-three-band-rule" class="level2 page-columns page-full">
+<section id="the-three-band-rule" class="level2">
 <h2 class="anchored" data-anchor-id="the-three-band-rule">The “three band rule”</h2>
 <p>After trying different approaches to detect L-shapes, one often comes back to a naive approach like <em>“L-shaped” genes should show an L shape in the scatterplot, that is, values should tend to be scattered near the vertical and horizontal axes, and the more we move from these positions the least L-shaped the gene should be</em>.</p>
 <p>This idea can be made more explicit by introducing a “three-band rule” as follows:</p>
 <ol type="1">
-<li><p>Overimpose a <span class="math inline">\(3\times 3\)</span> grid on the scatterplot. </p></li>
+<li><p>Overimpose a <span class="math inline">\(3\times 3\)</span> grid on the scatterplot.</p></li>
 <li><p>Classify the scatterplot as <strong>“L” or “non-L”</strong> based on a small set of conditions:</p>
 <pre><code>i) There must be a _minimum_ number of points in the upper-left (cell (1,1)) and lower right (cell (3,3)) corners of the grid.
 i) There must be a _maximum_ number of points in the upper right (cell (1,3)) because points there mean hypermethylation and hyperexpression which is the opposite of what we are looking for.
@@ -539,26 +573,26 @@ i) Points in non-desired regions (outer band. i.e. cells (1,2), (1,3), (2,3)) sc
 i) Some regions may be declared neutral and not-score, such as cell (2,2).</code></pre></li>
 <li><p>Use cross-validation to tune scoring parameters (<strong>if a set of positive and negative L-shaped genes is available</strong>).</p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">C</span></span></div><p>The previous scheme can be summarized using the following equation. <span class="math display">\[
+<p>The previous scheme can be summarized using the following equation. <span class="math display">\[
 S(X) = W_L \circ X \times \mathbbm{1}_L(X) + W_{L^C} \circ X \times \mathbbm{1}_{L^c}(X),
 \]</span> where</p>
 <ul>
-<li><span class="math inline">\({X}\)</span> is the matrix of <em>counts</em>, i.e.&nbsp;the number of counts in each cell of the grid, </li>
+<li><span class="math inline">\({X}\)</span> is the matrix of <em>counts</em>, i.e.&nbsp;the number of counts in each cell of the grid,</li>
 <li><span class="math inline">\({W_L}\)</span> is the matrix of scores per cell and point <em>if the scatterplot has been classified as <span class="math inline">\(L\)</span></em>,</li>
 <li><span class="math inline">\({W_{L^c}}\)</span> is the matrix of scores per cell and point <em>if the scatterplot has been classified as non-<span class="math inline">\(L\)</span> (<span class="math inline">\(L^c\)</span>)</em>,</li>
 </ul>
-<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">D</span></span></div><p>and <span class="math inline">\(\circ\)</span> represents the hadamard product of the two matrices <span class="math inline">\(W_{L/L^c}\)</span> (i.e.&nbsp;elementwise multiplication of the two matrices) and <span class="math inline">\(\mathbbm{1}_{L/L^c}()\)</span> is the indicator function for <span class="math inline">\(L\)</span> or <span class="math inline">\(L^c\)</span>.</p>
+<p>and <span class="math inline">\(\circ\)</span> represents the hadamard product of the two matrices <span class="math inline">\(W_{L/L^c}\)</span> (i.e.&nbsp;elementwise multiplication of the two matrices) and <span class="math inline">\(\mathbbm{1}_{L/L^c}()\)</span> is the indicator function for <span class="math inline">\(L\)</span> or <span class="math inline">\(L^c\)</span>.</p>
 <p>The fact that the scatterplot is assigned to <span class="math inline">\(L\)</span> or <span class="math inline">\(L^c\)</span> can also be described as the hadamard product of three matrices: <span class="math display">\[
 \mathbold{1}_L(X) = \bigwedge_{i,j} X \circ C \circ \left( mMP \times \sum_{i,j}x_{ij}\right),
 \]</span> where:</p>
 <ul>
-<li><span class="math inline">\({X}\)</span> is the matrix of <em>counts</em>, i.e.&nbsp;the number of counts in each cell of the grid, </li>
+<li><span class="math inline">\({X}\)</span> is the matrix of <em>counts</em>, i.e.&nbsp;the number of counts in each cell of the grid,</li>
 <li><span class="math inline">\(C\)</span> is the matrix of conditions to be verified <em>if the scatterplot has to be classified as <span class="math inline">\(L\)</span></em>,</li>
 <li><span class="math inline">\(mMP\)</span> is the matrix of minimum and Maximum Percentages of points to have in each cell <em>if the scatterplot has to be classified as <span class="math inline">\(L\)</span></em>,</li>
 <li><span class="math inline">\(\circ\)</span> represents the pointwise logical operation which allows that the product of the three cells becomes a logical operation and</li>
 <li><span class="math inline">\(\bigwedge_{i,j}\)</span> represents an logical “AND” operation of all cells, that is if all cells are TRUE the result is assigned to <span class="math inline">\(L\)</span> and if one fails it is assigned to <span class="math inline">\(L^c\)</span>.</li>
 </ul>
-<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">E</span></span></div><p>This idea is summarized in figure <strong>?@sec-Lscore</strong></p>
+<p>This idea is summarized in figure <strong>?@sec-Lscore</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"images/Lscoring.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -571,11 +605,11 @@ S(X) = W_L \circ X \times \mathbbm{1}_L(X) + W_{L^C} \circ X \times \mathbbm{1}_
 </div>
 </div>
 </section>
-<section id="computing-on-a-grid" class="level2 page-columns page-full">
+<section id="computing-on-a-grid" class="level2">
 <h2 class="anchored" data-anchor-id="computing-on-a-grid">Computing on a grid</h2>
 <p>We have developed several functions to help detect and select L–shape scatterplots. Their use is described in the package help but they are illustrated here to clarify the code below.</p>
 <ul>
-<li><code>calcFreqs</code> counts the number of points in each cell of the grid for given vertical (defined by parameters <code>x1</code>, <code>x2</code>) and horizontal lines (defined by parameters <code>y1</code>, <code>y2</code>, <code>percY1</code>, <code>percY2</code>) </li>
+<li><code>calcFreqs</code> counts the number of points in each cell of the grid for given vertical (defined by parameters <code>x1</code>, <code>x2</code>) and horizontal lines (defined by parameters <code>y1</code>, <code>y2</code>, <code>percY1</code>, <code>percY2</code>)</li>
 <li><code>binScore</code> classifies (<em>scores binarily</em>) a scatterplot based on the rules described above, that is it checks if the minimal assumptions for an L-shape hold or not. It needs a matrix of <em>min-max frequency counts</em>.</li>
 <li><code>numScore</code> scores a scatterplot using a matrix of weights that defines the score given to each point depending on the cell where it is located.
 <ul>
@@ -585,7 +619,7 @@ S(X) = W_L \circ X \times \mathbbm{1}_L(X) + W_{L^C} \circ X \times \mathbbm{1}_
 <li><code>scoreGenesMat</code> is a wrapper for scoring the genes provided in two related matrices that is, it first applies the <code>binScore</code> function and depending on its results it computes the <code>numericScore</code> function with all the genes in the (pair of) matrices.</li>
 <li>Function <code>plotGenesMat</code> is not a computing function but it is worth to enumerate it here because it complements the other functions by allowing to visualize the data that have generated a certain score from a given scatterplot.</li>
 </ul>
-<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">F</span></span></div></section>
+</section>
 <section id="examples" class="level2">
 <h2 class="anchored" data-anchor-id="examples">Examples</h2>
 <section id="scoring-the-truefalse-da-dataset" class="level3">
@@ -1003,15 +1037,15 @@ S(X) = W_L \circ X \times \mathbbm{1}_L(X) + W_{L^C} \circ X \times \mathbbm{1}_
 </section>
 </section>
 </section>
-<section id="putting-all-together-selecting-l-shaped-genes" class="level1 page-columns page-full">
+<section id="putting-all-together-selecting-l-shaped-genes" class="level1">
 <h1>Putting all together: Selecting L-shaped genes</h1>
 <p>The goal of developing all these functions is being able to select L-shaped genes from a paired dataset (expression-methylation) in a way that is as flexible and as rapid and as good as possible.</p>
 <p>Essentially the process of selecting L-shape genes consists of three steps:</p>
 <ol type="1">
-<li>Select datasets (a pair of row-column matched matrices, one for expression and one for methylation). </li>
+<li>Select datasets (a pair of row-column matched matrices, one for expression and one for methylation).</li>
 <li>Set parameters:</li>
 </ol>
-<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">G</span></span></div><ol type="i">
+<ol type="i">
 <li>Grid definition</li>
 <li>Binary Scoring ilii) Numerical Scoring</li>
 </ol>
@@ -1209,7 +1243,7 @@ S(X) = W_L \circ X \times \mathbbm{1}_L(X) + W_{L^C} \circ X \times \mathbbm{1}_
 </div>
 </section>
 </section>
-<section id="scoring-datasets" class="level2 page-columns page-full">
+<section id="scoring-datasets" class="level2">
 <h2 class="anchored" data-anchor-id="scoring-datasets">Scoring datasets</h2>
 <p>Once the parameters have been set we can proceed to score and classify each dataset.</p>
 <div class="cell">
@@ -1496,11 +1530,11 @@ S(X) = W_L \circ X \times \mathbbm{1}_L(X) + W_{L^C} \circ X \times \mathbbm{1}_
 </div>
 <p>We can now use this ordering to plot all genes starting by those that we consider L-shaped. The resulting plots are available in files</p>
 <ul>
-<li><code>DAExprAllScores.pdf</code> </li>
+<li><code>DAExprAllScores.pdf</code></li>
 <li><code>GEOLGenesScores.pdf</code></li>
 <li><code>TCGAGenesScores.pdf</code></li>
 </ul>
-<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">H</span></span></div><div class="cell">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotGenesMat</span> (<span class="at">mets=</span>DAMetilData[orderDA1,],</span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">expres=</span>DAExprData[orderDA1,],</span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">fileName =</span><span class="st">"DAExprAllScores.pdf"</span>,</span>
@@ -1528,10 +1562,10 @@ S(X) = W_L \circ X \times \mathbbm{1}_L(X) + W_{L^C} \circ X \times \mathbbm{1}_
 </div>
 <p>Alternatively instead of plotting all genes we may select L genes and plot only these. The resulting plots are avilable in files</p>
 <ul>
-<li><code>DAExprLGenesScores.pdf</code> </li>
+<li><code>DAExprLGenesScores.pdf</code></li>
 <li><code>DARNAseqLGenesScores.pdf</code></li>
 </ul>
-<div class="no-row-height column-margin column-container"><span class=""><span style="color:red">I</span></span></div><div class="cell">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>LgenesDAExpr <span class="ot">&lt;-</span> DAExprData[scoresDA1[,<span class="st">"logicSc"</span>],]</span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(LgenesDAExpr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

@@ -1,8 +1,8 @@
 ---
 title: "Selection of L-shaped genes using a heuristic algorithm"
 authors:
-- S\'anchez-Pla, Alex$^{1,3}$, 
-- Mir\'o, Berta$^3$, 
+- Sánchez-Pla, Alex$^{1,3}$, 
+- Miró, Berta$^3$, 
 - Carmona, Francesc$^1$, 
 - Bazzoco, Sara$^2$, 
 - Arango, Diego$^2$
@@ -14,6 +14,8 @@ format:
       code-fold: false
       fig-width: 8
       fig-height: 6
+      comments:
+        hypothesis: true
     pdf: default
 knit:
   quarto:
@@ -56,28 +58,36 @@ concordance=FALSE, echo=TRUE, cache=FALSE, warning=FALSE, error=FALSE, message=F
 
 # Introduction
 
-This document contains examples / applications on how to select L-shaped genes from two data matrices, an expression and a methylation matrix, matched by rows (genes) and columns(samplea), using the algorithms implemented by the authors and described elsewhere.
+This document contains examples on how to select genes  potentially regulated by methylation and characterized by an L-shaped scatterplot using an heuristic algorithm, implemented in the R `Lheuristic`package.
 
+The idea is to "keep-it-simple" so it can teach potentially users on how to select L-shaped genes started from a pair of matrices, an expression and a methylation matrix, matched by rows (genes) and columns (individuals).
 
-The idea is to "keep-it-simple" so that it can serve as the basis for other applications such as a program that optimizes the parameters or for a graphical user interface based in Shiny.
+A graphical user interface based in Shiny is also available to use the package.
 
-Essentially what the program does is
+## Basic pipeline
 
-* Data input `r ipacue()`
-    + Select (Load) expression values from a csv file
-    + Select (Load) methylation values from a csv file
-    + Data preprocessing may need to be done automatically so that its results can be used for filtering.
--  Set parameter values
+The basic steps for selecting L-shaped genes using the package is as follows:
+
+1. Input data 
+  - Select/Load expression values from a csv file.
+  - Select/Load methylation values from a csv file.
+
+2. Prepare data for the analysis
+  - Preprocess and normalize each dataset separately as required by the technology used.
+  - Format both datasets so taht they match by row names and colum names.
     
-  - For data use (all genes or only those that pass certain filters (corr < 0))
-  - For L-shape selection method: Here one may want to select the method and its parameters (each method has a different set of parameters)
+3.  Set parameter values
+  - For data use. For instance keep only those genes that pass certain filters such as showing negative correlation between expression and methylation.
+  - For L-shape selection method
+    - Select the methods to be used (naive, negative correlation or L-shape) and the parameters to apply each method.
 
 
-* Data processing (For each method and set of parameters ...)
-  - Run the computation and "mark" L-shape genes
+4. Process data
+  - Run the computation and call genes as TRUE or FALSE L-shapes,.
   - Draw the scatterplots of either all genes or only selected genes
+  - Compare the output of naive and L-shape methods.
 
-* Data output (For each method and set of parameters ...)
+5. Data output (For each method and set of parameters ...)
   - Save (Download) the resulting gene list(s)
   - Save (Download) the scatterplots
 
@@ -85,7 +95,6 @@ Essentially what the program does is
 ```{r directoris, echo=FALSE, eval=TRUE}
 options(digits=4)
 workingDir <- getwd()
-# workingDir <- setwd("C:/Users/Acer/Dropbox (EstBioInfo UB)/2016-01-Selecting_genes_regulated_by_methylation")
 dadesDir <-  file.path(workingDir, "dades")
 codeDir <-  file.path(workingDir, "Rcode")
 graficsDir<-file.path(workingDir, "results")
@@ -93,8 +102,7 @@ resultsDir <- file.path(workingDir, "results")
 ```
 
 
-
-```{r loadpackages, eval=TRUE}
+```{r loadpackages, message=FALSE}
 if (!(require(VennDiagram))) install.packages("VennDiagram")
 if (!(require(org.Hs.eg.db)))
   biocManager::install("org.Hs.eg.db")
@@ -103,18 +111,18 @@ if(!(require(Lheuristic)))
 library(Lheuristic)
 ```
 
-
 # The data for the analysis
-
 
 ## Real datasets
 
 There are several datasets available for analysis obtained from distinct sources:
 
-1. DA1. Expression microarrays (`DAMicroarrays.csv`) and methylation array (`DAMetilacion.csv`) on 25 cell llines `r ipacue()`
-1. DA2. Expression RNAseq (`DARNAseq.csv`) and methylation array (`DAMetilacion.csv`) on 25 cell llines
-1. GEO1. Expression microarrays (Illumina beadchips, `geoMicroarrays.csv`) and methylation array (Illumina 25kMethArray, `geoMetilacion.csv`) on 25 CRC samples. The data have been collected from the GEO database records: GSE25062 for the methylation data and GSE25070 for the expression data. The dataset has been created by taking the expression values available for 26 CRC tumors and matching with their corresponding methylation values.
-1. `TCGA` dataset has been obtained from The Cancer Genome Atlas Database (TCGA) (Colon Adenocarcinoma (`COAD`) Nature 2012 dataset) and downloaded through the cBioportal website.
+[Add reference to sources in the bibliography]{.aside}
+
+1. DA1. Expression microarrays (`DAMicroarrays.csv`) and methylation array (`DAMetilacion.csv`) on 25 cell llines.
+2. DA2. Expression RNAseq (`DARNAseq.csv`) and methylation array (`DAMetilacion.csv`) on 25 cell llines.
+3. GEO1. Expression microarrays (Illumina beadchips, `geoMicroarrays.csv`) and methylation array (Illumina 25kMethArray, `geoMetilacion.csv`) on 25 CRC samples. The data have been collected from the GEO database records: GSE25062 for the methylation data and GSE25070 for the expression data. The dataset has been created by taking the expression values available for 26 CRC tumors and matching with their corresponding methylation values.
+4. `TCGA` dataset has been obtained from The Cancer Genome Atlas Database (TCGA) (Colon Adenocarcinoma (`COAD`) Nature 2012 dataset) and downloaded through the cBioportal website.
 
 
 A summary of each datasets follows below:
@@ -364,7 +372,7 @@ After trying different approaches to detect L-shapes, one often comes back to a 
 
 This idea can be made more explicit by introducing a "three-band rule" as follows:
 
-1. Overimpose a $3\times 3$ grid on the scatterplot. `r ipacue()`
+1. Overimpose a $3\times 3$ grid on the scatterplot. 
 1. Classify the scatterplot as **"L" or "non-L"** based on a small set of conditions:
 
        i) There must be a _minimum_ number of points in the upper-left (cell (1,1)) and lower right (cell (3,3)) corners of the grid.
@@ -387,7 +395,7 @@ S(X) = W_L \circ X \times \mathbbm{1}_L(X) + W_{L^C} \circ X \times \mathbbm{1}_
 $$
 where
 
-* ${X}$ is the matrix of _counts_, i.e. the number of counts in each cell of the grid, `r ipacue()`
+* ${X}$ is the matrix of _counts_, i.e. the number of counts in each cell of the grid, 
 * ${W_L}$ is the matrix of scores per cell and point _if the scatterplot has been classified as $L$_,
 * ${W_{L^c}}$ is the matrix of scores per cell and point _if the scatterplot has been classified as non-$L$ ($L^c$)_,
 
@@ -399,7 +407,7 @@ $$
 $$
 where:
 
-* ${X}$ is the matrix of _counts_, i.e. the number of counts in each cell of the grid, `r ipacue()`
+* ${X}$ is the matrix of _counts_, i.e. the number of counts in each cell of the grid, 
 * $C$ is the matrix of conditions to be verified _if the scatterplot has to be classified as $L$_,
 * $mMP$ is the matrix of minimum and Maximum Percentages of points to have in each cell _if the scatterplot has to be classified as $L$_,
 * $\circ$ represents the pointwise logical operation which allows that the product of the three cells becomes a logical operation and
@@ -419,7 +427,7 @@ We have developed several functions to help detect and select L--shape scatterpl
 Their use is described in the package help but they are illustrated here to clarify the code below.
 
 
-* `calcFreqs` counts the number of points in each cell of the grid for given vertical (defined by parameters `x1`, `x2`) and horizontal lines (defined by parameters `y1`, `y2`, `percY1`, `percY2`) `r ipacue()`
+* `calcFreqs` counts the number of points in each cell of the grid for given vertical (defined by parameters `x1`, `x2`) and horizontal lines (defined by parameters `y1`, `y2`, `percY1`, `percY2`) 
 * `binScore` classifies (_scores binarily_) a scatterplot based on the rules described above, that is it checks if the minimal assumptions for an L-shape hold or not. It needs a matrix of _min-max frequency counts_.
 * `numScore` scores a scatterplot using a matrix of weights that defines the score given to each point depending on the cell where it is located.
     + If the scatterplot has been classified as having L-shape all points are scored, those in favorable regions score positively and those in non-favorable regions negatively.
@@ -513,7 +521,7 @@ The goal of developing all these functions is being able to select L-shaped gene
 
 Essentially the process of selecting L-shape genes consists of three steps:
 
-1. Select datasets (a pair of row-column matched matrices, one for expression and one for methylation). `r ipacue()`
+1. Select datasets (a pair of row-column matched matrices, one for expression and one for methylation). 
 2. Set parameters:
   
   i) Grid definition
@@ -642,7 +650,7 @@ orderTCGA<- order(scoresTCGA[,1], scoresTCGA[,2], rownames(scoresTCGA),
 
 We can now use this ordering to plot all genes starting by those that we consider L-shaped. The resulting plots are available in files
 
-* `DAExprAllScores.pdf` `r ipacue()`
+* `DAExprAllScores.pdf` 
 * `GEOLGenesScores.pdf`
 * `TCGAGenesScores.pdf`
 
@@ -669,7 +677,7 @@ plotGenesMat (mets=TCGAMetilData[orderTCGA,],
 Alternatively instead of plotting all genes we may select L genes and plot only these.
 The resulting plots are avilable in files
 
-* `DAExprLGenesScores.pdf` `r ipacue()`
+* `DAExprLGenesScores.pdf` 
 * `DARNAseqLGenesScores.pdf`
 
 
